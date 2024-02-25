@@ -14,41 +14,43 @@
 
 - **Создать уведомление**
 
-### Производит события
+## Производит события
 
   - Бизнес-события
-
-    - **NotificationCreated** — создано уведомление
+    - `NotificationCreated` — создано уведомление
 
   - Синхронизация данных
+    - —
 
-    - 
-
-- Потребляет события
-
+## Потребляет события
   - Бизнес-события
-
-    - **WageCalculated****** — зарплата рассчитана
-
+    - `WageCalculated` — зарплата рассчитана
   - Синхронизация данных
-
     - —
 
 ## Модель данных
 
 ### User
-
-* id: UUID
-* email: String
-* role: Enum
+- id: UUID
+- name: String
+- email: String[required, unique]
+- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
+- created\_at: DateTime
+- updated\_at: DateTime
+- version: Integer
 
 ### Notification
-* target: User
-* type: enum\<WageCalculated|RoleChanged>
-* data: JSON
+- event_name: enum\<`WageCalculated`|`RoleChanged`>
+- target: User
+- data: JSON
+- created\_at: DateTime
+- updated\_at: DateTime
+- version: Integer 
 
 ## Пользовательский интерфейс
 
 ### Страницы
-* Список уведомлений
+- Список уведомлений
+  - Пользователи с ролью `Admin` видят все уведомления
+  - Остальные пользователи видят только свои уведомления
 * Карточка уведомления

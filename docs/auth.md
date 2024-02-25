@@ -30,17 +30,13 @@
 ## Производит события
 
 - Бизнес-события
-
-  - UserRoleChanged — роль пользователя изменена
+  - `UserRoleChanged` — роль пользователя изменена
 
 - События данных
-
-  - UserCreated  — пользователь создан
-
-  - UserUpdated — пользователь изменён
+  - `UserCreated ` — пользователь создан
+  - `UserUpdated` — пользователь изменён
 
 ## Потребляет события
-
   - —
 
 ### Модель данных
@@ -50,7 +46,7 @@
 - id: UUID
 - name: String
 - email: String
-- role: String
+- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
 - created\_at: DateTime
 - updated\_at: DateTime
 - version: Integer 
@@ -60,13 +56,8 @@
 ### Страницы
 
 - Зарегистрироваться
-
 - Войти
-
 - Выйти
-
 - Список пользователей
-
-- Профиль
-
+- Профиль пользователя
 - Редактирование профиля
