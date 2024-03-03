@@ -1,0 +1,2 @@
+auth-app: bundle exec rails server
+auth-karafka: bundle exec karafka server

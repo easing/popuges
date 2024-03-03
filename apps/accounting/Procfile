@@ -1,0 +1,2 @@
+auth-app: sh -c 'cd apps/auth && bundle exec rails server'
+auth-karafka: sh -c 'cd apps/auth && bundle exec karafka server'
