@@ -16,16 +16,17 @@
 ## Производит события
 
   - Бизнес-события
-    - `NotificationCreated` — создано уведомление
-
-  - Синхронизация данных
     - —
+  - Синхронизация данных
+    - `NotificationCreated` — создано уведомление
 
 ## Потребляет события
   - Бизнес-события
     - `WageCalculated` — зарплата рассчитана
-  - Синхронизация данных
-    - —
+    - `TaskAdded` — добавлена задача
+    - `TaskAssigned` — назначена задача
+  - Синхронизация данных 
+    - —  
 
 ## Модель данных
 
@@ -33,10 +34,9 @@
 - id: UUID
 - name: String
 - email: String[required, unique]
-- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
+- role: enum\<`admin`|`accountant`|`manager`|`popug`|`guest`>
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer
 
 ### Notification
 - event_name: enum\<`WageCalculated`|`RoleChanged`>
@@ -44,12 +44,11 @@
 - data: JSON
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ## Пользовательский интерфейс
 
 ### Страницы
 - Список уведомлений
-  - Пользователи с ролью `Admin` видят все уведомления
+  - Пользователи с ролью `admin` видят все уведомления
   - Остальные пользователи видят только свои уведомления
 - Карточка уведомления

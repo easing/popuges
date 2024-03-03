@@ -11,20 +11,22 @@
 ## Команды
 
 - **Создать задачу**
-  - при создании задачи на неё назначается случайный пользователь с ролью Popug
+  - **при создании задачи** на неё назначается случайный пользователь с ролью `popug`
 - **Назначить задачи**
-  - при запуске команды все невыполненные задачи случайным образом распределяются между пользователями с ролью «Попуг»
+  - **при запуске команды** все невыполненные задачи случайным образом распределяются между пользователями с ролью `popug`
 - **Выполнить задачу**
   - задача отмечается выполненной
 
 ## Производит события
 
 - Бизнес-события
-  - `TaskCreated`
+  - `TaskAdded`
   - `TaskAssigned`
   - `TaskCompleted`
 
 - Синхронизация данных
+  - `TaskCreated`
+  - `TaskUpdated`
 
 ## Потребляет события
 
@@ -41,10 +43,9 @@
 - id: UUID
 - name: String
 - email: String[required, unique]
-- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
+- role: enum\<`admin`|`accountant`|`manager`|`popug`|`guest`>
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### Task 
 - id: UUID
@@ -53,7 +54,6 @@
 - completed\_at: DateTime
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ## Пользовательский интерфейс
 

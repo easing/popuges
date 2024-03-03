@@ -1,0 +1,22 @@
+<%= form_tag url: tasks_path, method: :post do |f| %>
+  <%= submit_tag "Add Task" %>
+<%- end %>
+
+<table>
+  <thead>
+  <th scope="col"><%= Task.human_attribute_name(:subject) %></th>
+  <th scope="col"><%= Task.human_attribute_name(:assigned_to) %></th>
+  <th scope="col"><%= Task.human_attribute_name(:created_at) %></th>
+  <th scope="col"><%= Task.human_attribute_name(:id) %></th>
+  </thead>
+  <tbody>
+  <%- @tasks.each do |task| %>
+    <tr>
+      <td><%= task.subject %></td>
+      <td><%= task.assigned_to&.name %></td>
+      <td><%= task.created_at %></td>
+      <td><%= link_to content_tag(:code, task.id), task %></td>
+    </tr>
+  <%- end %>
+  </tbody>
+</table>

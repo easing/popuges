@@ -1,0 +1,18 @@
+<table>
+  <thead>
+  <tr>
+    <th scope="col"><%= User.human_attribute_name(:name) %></th>
+    <th scope="col"><%= User.human_attribute_name(:role) %></th>
+    <th scope="col"><%= User.human_attribute_name(:id) %></th>
+  </tr>
+  </thead>
+  <tbody>
+  <%- @users.each do |user| %>
+    <tr>
+      <th scope="row"><%= user.name %></th>
+      <td><%= user.role %></td>
+      <td><%= link_to content_tag(:code, user.id), user %></td>
+    </tr>
+  <%- end %>
+  </tbody>
+</table>

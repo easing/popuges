@@ -1,0 +1,2 @@
+##
+class TaskAssigned < Event; end

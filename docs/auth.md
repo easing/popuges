@@ -22,10 +22,11 @@
 ## Производит события
 
 - Бизнес-события
+  - `UserRegistered` — пользователь зарегистрировался
   - `UserRoleChanged` — роль пользователя изменена
 
 - События данных
-  - `UserCreated ` — пользователь создан
+  - `UserCreated` — пользователь создан
   - `UserUpdated` — пользователь изменён
 
 ## Потребляет события
@@ -38,10 +39,9 @@
 - id: UUID
 - name: String
 - email: String
-- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
+- role: enum\<`admin`|`accountant`|`manager`|`popug`|`guest`>
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ## Пользовательский интерфейс
 

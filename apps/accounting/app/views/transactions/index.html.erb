@@ -1,0 +1,20 @@
+<table>
+  <thead>
+  <th scope="col"><%= Transaction.human_attribute_name(:created_at) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:user) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:debit) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:credit) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:id) %></th>
+  </thead>
+  <tbody>
+  <%- @transactions.each do |transaction| %>
+    <tr>
+      <td><%= transaction.created_at %></td>
+      <td><%= transaction.user&.name %></td>
+      <td><%= transaction.debit %></td>
+      <td><%= transaction.credit %></td>
+      <td><%= link_to content_tag(:code, transaction.id), transaction %></td>
+    </tr>
+  <%- end %>
+  </tbody>
+</table>

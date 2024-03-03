@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>aTES</title>
+</head>
+<body>
+
+<ul>
+  <li><%= link_to "Accounting", "http://localhost:5001" %></li>
+  <li><%= link_to "Analytics", "http://localhost:5002" %></li>
+  <li><%= link_to "Auth", "http://localhost:5003" %></li>
+  <li><%= link_to "Notifications", "http://localhost:5004" %></li>
+  <li><%= link_to "Tasks", "http://localhost:5005" %></li>
+</ul>
+
+<% if user_signed_in? %>
+  <p>
+    <strong>
+      <%= link_to current_user.name, "http://localhost:5003/users/#{current_user.id}" %>
+    </strong>
+  </p>
+
+  <%= form_for current_user, method: :delete, url: destroy_user_session_path do %>
+    <button type="submit">Выйти</button>
+  <% end %>
+<% end %>
+<hr>
+
+<%= yield %>
+
+</body>
+</html>

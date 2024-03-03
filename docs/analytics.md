@@ -25,7 +25,6 @@
 
   - Бизнес-события
     - `BalanceUpdated`
-    - `WageCalculated`
 
   - Синхронизация данных
     - —
@@ -36,20 +35,18 @@
 
 - id: UUID
 - name: String
-- role: String
+- role: enum\<`admin`|`accountant`|`manager`|`popug`|`guest`>
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### UserStats
 
 - id: UUID
 - user: User
 - day: Date
-- wage: Money
+- balance: Money
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### CompanyStats
 - id: UUID
@@ -57,7 +54,7 @@
 - profit: Money
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
+- version: Integer
 
 ## Пользовательский интерфейс
 

@@ -7,7 +7,6 @@
 ## Область ответственности
 
 - Определение стоимости задач
-
 - Расчёт зарплаты/прибыли компании
 
 ## Команды
@@ -21,8 +20,9 @@
     - стоимость выполнения — `rand(20..40)`
 
 - **Обновить баланс пользователя**
-  - Баланс пользователя обновляется 
-    - **при назначении задачи** на пользователя или (списываются средства) 
+  - Баланс пользователя обновляется
+    - **при добавлении новой задачи** для пользователя (списываются средства)
+    - **при назначении существующей задачи** на пользователя или (списываются средства)
     - **при выполнении задачи**, назначенной на пользователя (начисляются средства)
 
 - **Рассчитать зарплату**
@@ -57,10 +57,9 @@
 - id: UUID
 - name: String
 - email: String[required, unique]
-- role: enum\<`Admin`|`Accountant`|`Manager`|`Popug`>
+- role: enum\<`admin`|`accountant`|`manager`|`popug`|`guest`>
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer
 
 ### Task 
 
@@ -69,7 +68,6 @@
 - assigned\_to: User
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### TaskPrice
 
@@ -79,19 +77,18 @@
 - complete\_price: Money (20..40)
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### Transaction
 
 - id: UUID
-- amount: Money (−Inf..+Inf)
+- debit: Money (0..+Inf)
+- credit: Money (0..+Inf)
 - user: User
-- event_name: \<TaskAssigned|TaskCompleted|WageCalculated>
+- description: String
 - source_type: \<Task|Wage>
 - source_id: UUID
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ### Wage
 
@@ -101,21 +98,16 @@
 - amount: Money (>= 0)**
 - created\_at: DateTime
 - updated\_at: DateTime
-- version: Integer 
 
 ## Пользовательский интерфейс
 
 ### Страницы
 
 - Дашборд
-
   - Показывает прибыль компании за один день
-
     - Сумма _стоимостей назначения_ всех задач за день минус сумма _стоимостей выполнения_ всех закрытых за день задач: \
       sum(assigned task fee) - sum(completed task amount))
 
 - Список транзакций
-
   - Пользователям с ролью «Попуг» показываются только их транзакции
-
   - Администраторы, менеджеры, бухгалтеры видят все транзакции

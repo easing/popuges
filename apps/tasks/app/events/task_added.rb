@@ -1,0 +1,2 @@
+##
+class TaskAdded < Event; end
