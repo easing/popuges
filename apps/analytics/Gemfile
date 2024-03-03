@@ -1,0 +1,4 @@
+# frozen_string_literal: true
+
+eval File.read('../../Gemfile')
+

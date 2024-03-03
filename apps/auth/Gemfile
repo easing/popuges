@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+eval File.read('../../Gemfile')
+
+gem 'doorkeeper'
+
+source('https://ede926e2:2809224b@gems.karafka.io') do
+  gem 'karafka-license', '1.dc0eab50933'
+end
+
+gem 'karafka-web'
