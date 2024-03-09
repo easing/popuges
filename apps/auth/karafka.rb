@@ -3,7 +3,7 @@
 ##
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka = { 'bootstrap.servers': ENV['KAFKA_ADVERTISED_HOST_NAME'] }
+    config.kafka = { 'bootstrap.servers': ENV['KAFKA_HOST'] }
     config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
     config.consumer_persistence = !Rails.env.development?
   end

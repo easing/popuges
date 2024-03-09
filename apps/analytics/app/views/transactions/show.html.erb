@@ -1,0 +1,10 @@
+<h1><%= @transaction.description %></h1>
+
+<table>
+  <%- Transaction.column_names.each do |attr| %>
+  <tr>
+    <td><%= @transaction.class.human_attribute_name(attr) %></td>
+    <td><%= @transaction.send(attr) %></td>
+  </tr>
+  <% end %>
+</table>

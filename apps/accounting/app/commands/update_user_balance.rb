@@ -6,6 +6,12 @@ class UpdateUserBalance < ApplicationInteraction
 
   def execute
     transaction = Transaction.create!(inputs)
-    stream UserBalanceChanged, transaction
+
+    stream UserBalanceChanged, {
+      public_id: transaction.public_id,
+      user_id: transaction.user.public_id,
+      credit: transaction.credit,
+      debit: transaction.debit
+    }
   end
 end

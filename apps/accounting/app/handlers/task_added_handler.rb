@@ -3,18 +3,16 @@
 #
 class TaskAddedHandler < ::Handler
   def call
-    task = nil
-
     # TODO: более явно выделить бизнес-логику
-    Task.transaction do
-      task = Task.create_or_update_from_event(data)
-      task.update!(assign_price: rand(10..20), complete_price: rand(20..40)) if task.assign_price.blank? && task.complete_price.blank?
-    end
+    task = Task.create_or_update_from_event(data)
+
+    PricifyTask.run!(task: task)
 
     UpdateUserBalance.run!(
-      user: task.attributes["assigned_to_id"],
-      credit: task.attributes["assign_price"],
-      description: "Task ##{task.id} assigned"
+      transaction_type: "task.assigned",
+      user: task.assignee,
+      credit: task.assign_price,
+      description: "За назначение задачи #{task.public_id}"
     )
   end
 end

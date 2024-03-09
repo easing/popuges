@@ -8,6 +8,8 @@ class DoorkeeperStrategy < OmniAuth::Strategies::OAuth2
 
   uid { raw_info["resource_owner_id"] }
 
+  info { raw_info }
+
   def raw_info
     @raw_info ||= access_token.get('/oauth/token/info.json').parsed
   end

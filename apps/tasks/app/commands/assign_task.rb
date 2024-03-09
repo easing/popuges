@@ -1,15 +1,9 @@
 class AssignTask < ApplicationInteraction
+  record :task
   record :user
 
-  # @return [Task]
+  # @return [TrueClass,FalseClass]
   def execute
-    task = Task.random_task
-    return unless task
-
-    task.update!(assigned_to: user)
-
-    stream TaskAssigned, task
-
-    task
+    task.update!(assignee: user)
   end
 end

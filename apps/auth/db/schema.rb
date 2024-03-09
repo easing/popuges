@@ -14,9 +14,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_26_151017) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "oauth_access_grants", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "resource_owner_id", null: false
-    t.uuid "application_id", null: false
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.bigint "resource_owner_id", null: false
+    t.bigint "application_id", null: false
     t.string "token", null: false
     t.integer "expires_in", null: false
     t.text "redirect_uri", null: false
@@ -28,9 +28,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_26_151017) do
     t.index ["token"], name: "index_oauth_access_grants_on_token", unique: true
   end
 
-  create_table "oauth_access_tokens", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "resource_owner_id"
-    t.uuid "application_id", null: false
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.bigint "resource_owner_id"
+    t.bigint "application_id", null: false
     t.string "token", null: false
     t.string "refresh_token"
     t.integer "expires_in"
@@ -44,7 +44,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_26_151017) do
     t.index ["token"], name: "index_oauth_access_tokens_on_token", unique: true
   end
 
-  create_table "oauth_applications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "oauth_applications", force: :cascade do |t|
     t.string "name", null: false
     t.string "uid", null: false
     t.string "secret", null: false
@@ -56,9 +56,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_26_151017) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "role", default: "guest", null: false
+    t.string "public_id", default: -> { "gen_random_uuid()" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -67,6 +68,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_26_151017) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["public_id"], name: "index_users_on_public_id", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

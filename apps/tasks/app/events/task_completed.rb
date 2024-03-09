@@ -1,2 +1,4 @@
 ##
-class TaskCompleted < Event; end
+class TaskCompleted < Event
+  def topic = "tasks_workflow"
+end

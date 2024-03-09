@@ -1,3 +1,13 @@
 # frozen_string_literal: true
 
-class UserUpdated < Event; end
+class UserUpdated < Event
+  def topic = "users_data_stream"
+
+  def params
+    {
+      public_id: @params["public_id"],
+      name: @params["name"],
+      role: @params["role"]
+    }
+  end
+end

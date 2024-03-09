@@ -15,7 +15,7 @@ class User < ::ApplicationRecord
 
   include ::UserRoles
 
-  before_validation :set_name_from_email, on: :create, if: -> { name.blank? }
+  after_initialize :set_public_id, if: :new_record?
 
   # TODO: вынести изменение роли и регистрацию пользователей в отдельные интекракшены
   after_commit :stream_role_change, if: :saved_change_to_role?
@@ -25,15 +25,11 @@ class User < ::ApplicationRecord
 
   # @return [Rdkafka::Producer::DeliveryHandle]
   def stream_role_change
-    UserRoleChanged.new(id: id, role: role).stream
+    UserRoleChanged.new(public_id: public_id, role: role, name: name).stream
   end
 
   # @return [Rdkafka::Producer::DeliveryHandle]
   def stream_user_registration
-    UserRegistered.new(as_json).stream
-  end
-
-  def set_name_from_email
-    self.name = email.strip
+    UserRegistered.new(public_id: public_id, role: role, name: name).stream
   end
 end

@@ -1,32 +1,39 @@
 ## Базовое событие
 class Event
-  # @!attribute
-  attr_reader :data
+  cattr_accessor :producer
 
-  # @param [Object] data данные для передачи в шину событий
-  def initialize(data)
-    @data = data.as_json
+  @@producer = Karafka.producer
+
+  def topic
+    raise NotImplementedError
   end
 
-  # Отправить сообщение в указанный топик
-  #
-  # @param [String|Symbol] topic топик в который нужно отправить сообщение
-  # @return [Rdkafka::Producer::DeliveryHandle]
-  def stream_to(topic)
-    Karafka.producer.produce_async(topic: topic, payload: { event_name: self.class.name, data: data }.to_json)
+  def initialize(params)
+    @params = params.to_h.with_indifferent_access
   end
 
-  # Отправить сообщение в топик по-умолчанию
-  #
-  # @return [Rdkafka::Producer::DeliveryHandle]
+  def params
+    @params.as_json
+  end
+
+  def as_json
+    {
+      topic: topic,
+      payload: {
+        id: SecureRandom.uuid,
+        event_name: self.class.name,
+        data: params
+      }.to_json
+    }
+  end
+
   def stream
-    stream_to(self.class.topic)
+    @@producer.produce_async(as_json)
   end
 
-  # Топик по-умолчанию
-  #
-  # @return [String]
-  def self.topic
-    Rails.application.class.name.deconstantize.downcase
+  def self.stream_batch(events)
+    @@producer.produce_many_async(
+      events.map { |event_params| self.class.new(event_params).as_json }
+    )
   end
 end

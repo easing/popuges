@@ -3,7 +3,7 @@
 ##
 class KarafkaApp < Karafka::App
   setup do |config|
-    config.kafka = { 'bootstrap.servers': ENV['KAFKA_ADVERTISED_HOST_NAME'] }
+    config.kafka = { 'bootstrap.servers': ENV['KAFKA_HOST'] }
     config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
     config.consumer_persistence = !Rails.env.development?
   end
@@ -13,7 +13,9 @@ class KarafkaApp < Karafka::App
 
   routes.draw do
     consumer_group :tasks do
-      topic(:auth) { consumer ApplicationConsumer }
+      topic(:users_data_stream) { consumer ApplicationConsumer }
+      topic(:users_registrations) { consumer ApplicationConsumer }
+      topic(:users_permissions) { consumer ApplicationConsumer }
     end
   end
 end

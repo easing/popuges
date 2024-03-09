@@ -1,20 +1,24 @@
 class TasksController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    @tasks = Task.all
+    @tasks = @tasks.includes(:assignee)
   end
 
   def show
-    @task = Task.find(params[:id])
   end
 
   def create
-    AddTask.run!
+    task = AddTask.run!
+    TaskAdded.new(task.as_event_data).stream
+
     redirect_back fallback_location: tasks_path
   end
 
-  private
+  def complete
+    task = CompleteTask.run!(task: params[:id])
+    TaskCompleted.new(task.as_event_data).stream
 
-  def permitted_params
-    params.require(:task).permit(:subject)
+    redirect_back fallback_location: tasks_path
   end
 end

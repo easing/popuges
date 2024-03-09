@@ -11,9 +11,9 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
-  include ::UserRoles
+  include UserConcern
 
-  has_many :tasks, foreign_key: :assigned_to_id
+  has_many :tasks, foreign_key: :assignee_id
 
   def has_no_tasks?
     tasks.not_completed.empty?

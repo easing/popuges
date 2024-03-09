@@ -7,10 +7,18 @@ class ApplicationAbility
   def initialize(user)
     @user = user
 
-    call if user.present?
+    return if user.blank?
+
+    if respond_to?("role_#{user.role}", true)
+      send("role_#{user.role}")
+    else
+      any_role
+    end
   end
 
-  def call
+  private
+
+  def any_role
     raise NotImplementedError
   end
 end

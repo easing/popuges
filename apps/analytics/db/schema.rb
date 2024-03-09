@@ -14,33 +14,39 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_091544) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "tasks", force: :cascade do |t|
     t.string "subject", null: false
-    t.uuid "assigned_to_id"
+    t.bigint "assignee_id"
     t.datetime "completed_at"
     t.integer "assign_price"
     t.integer "complete_price"
+    t.string "public_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["assigned_to_id"], name: "index_tasks_on_assigned_to_id"
+    t.index ["assignee_id"], name: "index_tasks_on_assignee_id"
+    t.index ["public_id"], name: "index_tasks_on_public_id", unique: true
   end
 
-  create_table "transactions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id", null: false
+  create_table "transactions", force: :cascade do |t|
     t.string "description", default: "", null: false
+    t.bigint "user_id", null: false
     t.integer "debit", default: 0, null: false
     t.integer "credit", default: 0, null: false
+    t.string "public_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["public_id"], name: "index_transactions_on_public_id", unique: true
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 
-  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
-    t.string "role", default: "", null: false
+    t.string "role"
+    t.string "public_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["public_id"], name: "index_users_on_public_id", unique: true
   end
 
-  add_foreign_key "tasks", "users", column: "assigned_to_id"
+  add_foreign_key "tasks", "users", column: "assignee_id"
 end

@@ -3,7 +3,6 @@
 ##
 class UserRoleChangedHandler < Handler
   def call
-    user = User.create_or_update_from_event(data)
-    user.update!(role: data["role"].to_s)
+    User.create_or_update_from_event(data)
   end
 end

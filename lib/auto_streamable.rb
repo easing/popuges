@@ -20,8 +20,9 @@ module AutoStreamable
       event_class = event_name.safe_constantize
 
       return if event_class.nil?
+      return unless respond_to?(:public_id)
 
-      event_class.new(as_json).stream
+      event_class.new(as_event_data).stream
     end
 
     # Совершённое с записью действие

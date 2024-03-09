@@ -6,7 +6,7 @@ class UserBalanceChangedHandler < ::Handler
     return if data["user_id"].blank?
 
     Notification.transaction do
-      user = User.find_or_create_by!(id: data["user_id"])
+      user = User.create_or_update_from_event(id: data["user_id"])
       Notification.create!(subject: "У вас изменился баланс: #{data.slice("debit", "credit").inspect}", user: user)
     end
   end

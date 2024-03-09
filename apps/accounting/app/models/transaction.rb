@@ -12,5 +12,12 @@
 #
 class Transaction < ApplicationRecord
   belongs_to :user
+
+  scope :ordered, -> { order(created_at: :desc) }
+
+  default_scope { ordered }
+
+  after_initialize :set_public_id, if: :new_record?
+
   validates :debit, :credit, numericality: { greater_than_or_equal_to: 0 }
 end

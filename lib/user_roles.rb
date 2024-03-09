@@ -5,11 +5,11 @@ module UserRoles
     attribute :role, :string
 
     enum role: {
-      administrator: 'administrator',
-      accountant: 'accountant',
-      manager: 'manager',
-      popug: 'popug',
-      guest: 'guest'
+      administrator: "administrator",
+      accountant: "accountant",
+      manager: "manager",
+      popug: "popug",
+      guest: "guest"
     }, _prefix: true
 
     before_save do

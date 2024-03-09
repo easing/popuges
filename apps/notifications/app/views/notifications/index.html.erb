@@ -8,7 +8,7 @@
   <%- @notifications.each do |notification| %>
     <tr>
       <td><%= notification.subject %></td>
-      <td><%= notification.user&.name %></td>
+      <td><%= notification.user&.display_name %></td>
       <td><%= link_to content_tag(:code, notification.id), notification %></td>
     </tr>
   <%- end %>

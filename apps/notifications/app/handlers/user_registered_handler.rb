@@ -3,9 +3,7 @@
 #
 class UserRegisteredHandler < ::Handler
   def call
-    user = User.create_with(name: data["name"].to_s, role: data["role"].to_s)
-               .create_or_find_by!(id: data["id"])
-
+    user = User.create_or_update_from_event(data)
     Notification.create!(subject: "Новый пользователь: #{user.name}")
   end
 end

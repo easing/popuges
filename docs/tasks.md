@@ -31,11 +31,11 @@
 ## Потребляет события
 
 - Бизнес-события
+  - `UserRegistered`
   - `UserRoleChanged`
 
 - Синхронизация данных
-  - `UserCreated`
-  - `UserUpdated`
+  - —
 
 ## Модель данных
 

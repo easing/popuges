@@ -1,0 +1,22 @@
+<table>
+  <thead>
+  <th scope="col"><%= Transaction.human_attribute_name(:user) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:role) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:balance) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:tasks) %> opened</th>
+  <th scope="col"><%= Transaction.human_attribute_name(:tasks) %> completed</th>
+  <th scope="col"><%= Transaction.human_attribute_name(:created_at) %></th>
+  </thead>
+  <tbody>
+  <%- @users.each do |user| %>
+    <tr>
+      <td><%= link_to user.display_name, user %></td>
+      <td><%= user.role %></td>
+      <td><%= user.balance %></td>
+      <td><%= user.tasks.not_completed.count %></td>
+      <td><%= user.tasks.completed.count %></td>
+      <td><%= user.created_at %></td>
+    </tr>
+  <%- end %>
+  </tbody>
+</table>

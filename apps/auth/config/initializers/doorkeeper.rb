@@ -8,9 +8,6 @@ Doorkeeper.configure do
   end
 
   resource_owner_from_credentials do
-    pp params
-    pp current_user
-
     current_user
   end
 

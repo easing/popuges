@@ -4,6 +4,6 @@ class CompleteTask < ApplicationInteraction
 
   def execute
     task.update!(completed_at: Time.current)
-    stream TaskCompleted, id: task.id
+    task
   end
 end
