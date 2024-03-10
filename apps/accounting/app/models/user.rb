@@ -4,19 +4,24 @@
 #
 # Table name: users
 #
-#  id         :uuid             not null, primary key
-#  name       :string           default("")
-# , not null
-#  role       :string           default(NULL), not null
+#  id         :bigint           not null, primary key
+#  name       :string           default(""), not null
+#  role       :string
+#  public_id  :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  provider   :string
+#  uid        :string
 #
 class User < ::ApplicationRecord
   include UserConcern
 
-  has_many :transactions
+  has_many :billing_cycles, dependent: :restrict_with_exception
+  has_many :transactions, through: :billing_cycles
 
-  def last_wage_transaction
-
-  end
+  has_one :current_billing_cycle,
+          -> { where(current: true) },
+          inverse_of: :user,
+          class_name: "BillingCycle",
+          dependent: :restrict_with_exception
 end

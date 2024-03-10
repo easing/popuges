@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: tasks
+#
+#  id             :bigint           not null, primary key
+#  subject        :string           not null
+#  assignee_id    :bigint
+#  completed_at   :datetime
+#  assign_price   :integer
+#  complete_price :integer
+#  public_id      :string           not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
 # Задача
 class Task < ApplicationRecord
   belongs_to :assignee, class_name: "User"

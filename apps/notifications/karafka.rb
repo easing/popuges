@@ -21,6 +21,9 @@ class KarafkaApp < Karafka::App
 
       topic(:tasks_data_stream) { consumer ApplicationConsumer }
       topic(:tasks_workflow) { consumer ApplicationConsumer }
+
+      topic(:balance_changes) { consumer ApplicationConsumer }
+      topic(:billing_cycles_workflow) { consumer ApplicationConsumer }
     end
   end
 end

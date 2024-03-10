@@ -9,11 +9,16 @@ class UserRoleChangedHandler < Handler
   end
 
   private
+
   def create_and_complete_gift_task(user)
+    task = nil
+
     Task.transaction do
       task = Task.create!(subject: "Задачка в подарок для нашего попуга", assignee: user)
       CompleteTask.run!(task: task)
     end
+
+    return unless task
 
     stream TaskAdded, task.as_event_data
     stream TaskCompleted, task.as_event_data

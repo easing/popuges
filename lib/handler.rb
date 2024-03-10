@@ -3,6 +3,8 @@ class Handler
   # @!attribute
   attr_reader :data
 
+  def self.version = 1
+
   # @param [String] payload данные события
   def initialize(data)
     @data = data
@@ -16,8 +18,11 @@ class Handler
   def self.run(message)
     payload = message.payload
     event_name = payload["event_name"]
+    event_version = payload["event_version"]
 
-    Rails.logger.debug "#{Rails.application.class.name}: #{event_name}, #{payload.inspect}"
+    Rails.logger.debug "#{Rails.application.class.name}: #{event_name}.v#{event_version}, #{payload.inspect}"
+
+    return unless version == event_version
 
     handler_class = "#{event_name}Handler".safe_constantize
 
@@ -39,6 +44,6 @@ class Handler
   end
 
   def stream(event_class, event_data)
-    event_class.new(event_class).stream
+    event_class.new(event_data).stream
   end
 end

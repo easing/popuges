@@ -2,16 +2,18 @@
 #
 # Table name: transactions
 #
-#  id          :uuid             not null, primary key
-#  user_id     :uuid             not null
-#  description :string           default(""), not null
-#  debit       :integer          default(0), not null
-#  credit      :integer          default(0), not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id               :bigint           not null, primary key
+#  billing_cycle_id :bigint           not null
+#  description      :string           default(""), not null
+#  debit            :integer          default(0), not null
+#  credit           :integer          default(0), not null
+#  public_id        :string           not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 class Transaction < ApplicationRecord
-  belongs_to :user
+  belongs_to :billing_cycle
+  has_one :user, through: :billing_cycle
 
   scope :ordered, -> { order(created_at: :desc) }
 

@@ -2,14 +2,14 @@
 #
 # Table name: tasks
 #
-#  id             :uuid             not null, primary key
-#  subject        :string           not null
-#  assignee_id :uuid
-#  completed_at   :datetime
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id           :bigint           not null, primary key
+#  subject      :string           not null
+#  assignee_id  :bigint
+#  completed_at :datetime
+#  public_id    :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
-# Задача
 class Task < ApplicationRecord
   belongs_to :assignee, class_name: "User"
 

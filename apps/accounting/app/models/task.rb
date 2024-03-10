@@ -2,12 +2,13 @@
 #
 # Table name: tasks
 #
-#  id             :uuid             not null, primary key
+#  id             :bigint           not null, primary key
 #  subject        :string           not null
-#  assignee_id :uuid
+#  assignee_id    :bigint
 #  completed_at   :datetime
 #  assign_price   :integer
 #  complete_price :integer
+#  public_id      :string           not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #

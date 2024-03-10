@@ -10,7 +10,8 @@ class Ability < ApplicationAbility
   end
 
   def can_read_own_transactions
-    can :read, Transaction, user: user
+    can :read, BillingCycle, user: user
+    can :read, Transaction, billing_cycle: { user: user }
   end
 
   def can_read_transactions

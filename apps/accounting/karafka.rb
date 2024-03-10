@@ -19,6 +19,8 @@ class KarafkaApp < Karafka::App
 
       topic(:tasks_data_stream) { consumer ApplicationConsumer }
       topic(:tasks_workflow) { consumer ApplicationConsumer }
+
+      topic(:system_clock) { consumer ApplicationConsumer }
     end
   end
 end
