@@ -30,3 +30,5 @@ gem 'omniauth-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'activerecord-session_store'
 gem 'cancancan'
+
+gem 'json-schema'

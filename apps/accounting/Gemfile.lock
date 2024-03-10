@@ -89,6 +89,8 @@ GEM
       minitest (>= 5.1)
       mutex_m
       tzinfo (~> 2.0)
+    addressable (2.8.6)
+      public_suffix (>= 2.0.2, < 6.0)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -130,6 +132,8 @@ GEM
       rdoc
       reline (>= 0.4.2)
     json (2.7.1)
+    json-schema (4.1.1)
+      addressable (>= 2.8)
     jwt (2.8.1)
       base64
     karafka (2.3.3)
@@ -202,6 +206,7 @@ GEM
     pg (1.5.5)
     psych (5.1.2)
       stringio
+    public_suffix (5.0.4)
     puma (6.4.2)
       nio4r (~> 2.0)
     racc (1.7.3)
@@ -324,6 +329,7 @@ DEPENDENCIES
   cancancan
   devise
   dotenv
+  json-schema
   karafka
   omniauth-oauth2
   omniauth-rails_csrf_protection
