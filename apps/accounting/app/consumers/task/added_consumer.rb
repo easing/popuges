@@ -8,7 +8,7 @@ class Task::AddedConsumer < EDA::Consumer
 
     Task::Pricify.run!(task: task)
 
-    User::UpdateBalance.run!(
+    User::ChangeBalance.run!(
       transaction_type: "task.assigned",
       user: task.assignee,
       credit: task.assign_price,

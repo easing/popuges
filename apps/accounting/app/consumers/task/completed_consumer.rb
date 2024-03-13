@@ -5,7 +5,7 @@ class Task::CompletedConsumer < EDA::Consumer
   version 1 do
     task = Task.create_or_update_from_event(data)
 
-    UpdateUserBalance.run!(
+    User::ChangeBalance.run!(
       transaction_type: "task.completed",
       user: task.assignee,
       debit: task.complete_price,

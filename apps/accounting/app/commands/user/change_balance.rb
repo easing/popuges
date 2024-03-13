@@ -1,4 +1,4 @@
-class User::UpdateBalance < ApplicationInteraction
+class User::ChangeBalance < ApplicationInteraction
   record :user
 
   integer :credit, default: 0
