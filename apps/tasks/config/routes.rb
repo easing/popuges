@@ -7,6 +7,10 @@ Rails.application.routes.draw do
     member do
       patch :complete
     end
+
+    collection do
+      patch :reassign
+    end
   end
 
   get 'up' => 'rails/health#show', as: :rails_health_check

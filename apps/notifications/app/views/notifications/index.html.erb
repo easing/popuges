@@ -1,16 +1,1 @@
-<table>
-  <thead>
-  <th scope="col"><%= Notification.human_attribute_name(:subject) %></th>
-  <th scope="col"><%= Notification.human_attribute_name(:user) %></th>
-  <th scope="col"><%= Notification.human_attribute_name(:created_at) %></th>
-  </thead>
-  <tbody>
-  <%- @notifications.each do |notification| %>
-    <tr>
-      <td><%= notification.subject %></td>
-      <td><%= notification.user&.display_name %></td>
-      <td><%= link_to content_tag(:code, notification.id), notification %></td>
-    </tr>
-  <%- end %>
-  </tbody>
-</table>
+<%= render_grid @grid %>

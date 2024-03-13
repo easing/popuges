@@ -27,6 +27,6 @@ class Ability < ApplicationAbility
   end
 
   def can_manage_tasks
-    can [:create, :complete], Task
+    can [:create, :complete, :reassign], Task
   end
 end

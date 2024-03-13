@@ -1,21 +1,17 @@
 <table>
   <thead>
-  <th scope="col"><%= Transaction.human_attribute_name(:created_at) %></th>
-  <th scope="col"><%= Transaction.human_attribute_name(:description) %></th>
-  <th scope="col"><%= Transaction.human_attribute_name(:user) %></th>
+  <th scope="col"><%= Transaction.human_attribute_name(:date) %></th>
   <th scope="col"><%= Transaction.human_attribute_name(:debit) %></th>
   <th scope="col"><%= Transaction.human_attribute_name(:credit) %></th>
-  <th scope="col"><%= Transaction.human_attribute_name(:id) %></th>
+  <th scope="col">Balance</th>
   </thead>
   <tbody>
-  <%- @transactions.each do |transaction| %>
+  <%- @stats.each do |record| %>
     <tr>
-      <td><%= transaction.created_at %></td>
-      <td><%= transaction.description %></td>
-      <td><%= transaction.user&.display_name %></td>
-      <td><%= transaction.debit %></td>
-      <td><%= transaction.credit %></td>
-      <td><%= link_to content_tag(:code, transaction.id), transaction %></td>
+      <td><%= record["date"] %></td>
+      <td><%= record["debit"] %></td>
+      <td><%= record["credit"] %></td>
+      <td><%= record["balance"] %></td>
     </tr>
   <%- end %>
   </tbody>

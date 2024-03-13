@@ -15,11 +15,3 @@ class KarafkaApp < Karafka::App
 
   end
 end
-
-Karafka::Web.setup do |config|
-  # You may want to set it per ENV. This value was randomly generated.
-  config.ui.sessions.secret = 'a0f690f15d44fcc2bc2e1d48ed63aa13d8a95c4c951ee0c350854121e2e6c45e'
-end
-
-Karafka::Web.enable!
-

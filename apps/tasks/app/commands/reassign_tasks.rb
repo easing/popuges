@@ -11,7 +11,9 @@ class ReassignTasks < ApplicationInteraction
       assigned_tasks << task if task.saved_change_to_assignee_id?
     end
 
-    TaskAssigned.stream_batch assigned_tasks.map(&:as_event_data)
+    events = assigned_tasks.map { |task| Task::Assigned.new(task.as_event_data) }
+    pp events
+    EDA.stream_batch events
   end
 
   private

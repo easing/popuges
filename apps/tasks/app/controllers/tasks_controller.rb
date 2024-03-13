@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @tasks = @tasks.includes(:assignee)
+    @grid = TasksGrid.new { @tasks.includes(:assignee) }
   end
 
   def show
@@ -19,6 +19,11 @@ class TasksController < ApplicationController
     task = CompleteTask.run!(task: params[:id])
     EDA.stream Task::Completed.new(task.as_event_data)
 
+    redirect_back fallback_location: tasks_path
+  end
+
+  def reassign
+    ReassignTasks.run!
     redirect_back fallback_location: tasks_path
   end
 end

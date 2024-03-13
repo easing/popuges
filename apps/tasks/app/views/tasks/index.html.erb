@@ -1,32 +1,14 @@
-<%= form_tag tasks_path, method: :post do |f| %>
-  <%= submit_tag "Add Task" %>
+
+
+<%= form_tag tasks_path, method: :post, style: "display: inline;" do |f| %>
+  <%= submit_tag "Добавить задачу" %>
 <%- end %>
 
-<table>
-  <thead>
-  <th scope="col"><%= Task.human_attribute_name(:subject) %></th>
-  <th scope="col"><%= Task.human_attribute_name(:assignee) %></th>
-  <th scope="col"><%= Task.human_attribute_name(:completed_at) %></th>
-  <th scope="col"><%= Task.human_attribute_name(:created_at) %></th>
-  <th scope="col"><%= Task.human_attribute_name(:id) %></th>
-  </thead>
-  <tbody>
-  <%- @tasks.each do |task| %>
-    <tr>
-      <td><%= task.subject %></td>
-      <td><%= task.assignee&.display_name %></td>
-      <td>
-        <% if task.completed? %>
-          <%= task.completed_at %>
-        <% else %>
-          <%= form_tag complete_task_path(task), method: :patch do |f| %>
-            <%= submit_tag "Complete" %>
-          <%- end %>
-        <% end %>
-      </td>
-      <td><%= task.created_at %></td>
-      <td><%= link_to content_tag(:code, task.id), task %></td>
-    </tr>
-  <%- end %>
-  </tbody>
-</table>
+<%= form_tag reassign_tasks_path, method: :patch, style: "display: inline;" do |f| %>
+  <%= submit_tag "Перемешать задачи" %>
+<%- end %>
+
+<br>
+<br>
+
+<%= render_grid @grid %>

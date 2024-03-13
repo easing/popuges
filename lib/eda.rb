@@ -19,13 +19,7 @@ module EDA
   end
 
   def self.stream_batch(events)
-    messages = events.filter_map do |event_params|
-      event = self.class.new(event_params)
-      next unless event.valid?
-
-      event.as_json
-    end
-
+    messages = events.select(&:valid?).map(&:as_json)
     producer.produce_many_async(messages)
   end
 

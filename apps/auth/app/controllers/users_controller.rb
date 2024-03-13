@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def create_popug
     pass = SecureRandom.hex
     user = User.new(
-      name: "Popug #{SecureRandom.hex}",
+      name: "Popug #{SecureRandom.hex(2)}",
       email: "#{SecureRandom.hex}@easing.ru",
       role: User.roles[:popug],
       password: pass,
@@ -19,6 +19,7 @@ class UsersController < ApplicationController
   end
 
   def index
+    @grid = UsersGrid.new { @users.order(created_at: :desc) }
   end
 
   def show

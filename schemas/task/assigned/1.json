@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TaskAdded.v1",
+  "title": "TaskAssigned.v1",
   "description": "",
   "definitions": {
     "event_data": {

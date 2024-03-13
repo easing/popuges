@@ -69,7 +69,7 @@
       text-decoration: none;
     }
 
-    h1, h2, h3 {
+    h1 {
       font-weight: bold;
     }
 
@@ -94,25 +94,11 @@
       <h1 class="logotype">aTES</h1>
     </div>
     <div class="topnav__navigation">
-      <ul class="nav">
-        <li>💰&nbsp;<%= link_to "Бухгалтерия", "http://localhost:5001", class: ("active" if request.url.start_with?("http://localhost:5001")) %></li>
-        <li>🪵&nbsp;<%= link_to "Задачи", "http://localhost:5005", class: ("active" if request.url.start_with?("http://localhost:5005")) %></li>
-        <li>📉&nbsp;<%= link_to "Аналитика", "http://localhost:5002", class: ("active" if request.url.start_with?("http://localhost:5002")) %></li>
-        <li>🔥&nbsp;<%= link_to "Уведомления", "http://localhost:5004", class: ("active" if request.url.start_with?("http://localhost:5004")) %></li>
-        <li>🦜&nbsp;<%= link_to "Попуги", "http://localhost:5003", class: ("active" if request.url.start_with?("http://localhost:5003")) %></li>
-      </ul>
+
     </div>
 
     <div class="topnav__user">
-      <% if user_signed_in? %>
-        <strong>
-          <%= link_to current_user.name, "http://localhost:5003/users/#{current_user.id}" %>
-        </strong>
-        &nbsp;
-        <%= form_for current_user, method: :delete, url: destroy_user_session_url(port: 5003) do %>
-          <input type="submit" value="Выйти" />
-        <% end %>
-      <% end %>
+
     </div>
   </div>
 </div>
@@ -120,10 +106,30 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <%= yield %>
+
+      <h2>Вход</h2>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="field">
+          <%= f.label "Почта" %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        </div>
+
+        <div class="field">
+          <%= f.label "Пароль" %><br />
+          <%= f.password_field :password, autocomplete: "current-password" %>
+        </div>
+
+        <br>
+
+        <div class="actions">
+          <%= f.submit "Войти" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
 
 </body>
 </html>
+

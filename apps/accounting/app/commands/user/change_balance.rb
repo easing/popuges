@@ -14,7 +14,7 @@ class User::ChangeBalance < ApplicationInteraction
     Transaction.transaction do
       billing_cycle = user.current_billing_cycle || BillingCycle.create!(user: user, name: Time.zone.today.to_s, current: true)
 
-      transaction = Transaction.create(
+      transaction = Transaction.create!(
         billing_cycle: billing_cycle,
         description: description,
         debit: debit,
