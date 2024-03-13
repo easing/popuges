@@ -15,8 +15,4 @@ class User < ApplicationRecord
   include UserConcern
 
   has_many :tasks, inverse_of: :assignee, dependent: :restrict_with_exception
-
-  def has_no_tasks?
-    tasks.not_completed.empty?
-  end
 end

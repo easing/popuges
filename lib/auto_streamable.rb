@@ -22,7 +22,7 @@ module AutoStreamable
       return if event_class.nil?
       return unless respond_to?(:public_id)
 
-      event_class.new(as_event_data).stream
+      ::EDA.stream event_class.new(as_event_data)
     end
 
     # Совершённое с записью действие

@@ -22,4 +22,13 @@ class Transaction < ApplicationRecord
   after_initialize :set_public_id, if: :new_record?
 
   validates :debit, :credit, numericality: { greater_than_or_equal_to: 0 }
+
+  def as_event_data
+    {
+      public_id: public_id,
+      user_id: billing_cycle.user.public_id,
+      credit: credit,
+      debit: debit
+    }
+  end
 end

@@ -13,5 +13,13 @@ class BillingCycle < ApplicationRecord
   belongs_to :user
   has_many :transactions, dependent: :restrict_with_exception
 
-  def amount = transactions.sum(Arel.sql "debit - credit")
+  def amount = transactions.sum(Arel.sql("debit - credit"))
+
+  def as_event_data
+    {
+      user_id: user.public_id,
+      name: name,
+      amount: amount
+    }
+  end
 end

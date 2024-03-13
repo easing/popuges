@@ -22,12 +22,10 @@ class Task < ApplicationRecord
 
   after_initialize :set_public_id, if: :new_record?
 
-  # @return [TrueClass, FalseClass]
-  def completed? = completed_at.present?
+  after_commit(on: :create) { EDA.stream Task::Created.new(as_event_data) }
+  after_commit(on: :update) { EDA.stream Task::Updated.new(as_event_data) }
 
-  def self.random_task
-    reorder("RANDOM()").first
-  end
+  def completed? = completed_at.present?
 
   def as_event_data
     {

@@ -10,14 +10,14 @@ class TasksController < ApplicationController
 
   def create
     task = AddTask.run!
-    TaskAdded.new(task.as_event_data).stream
+    EDA.stream Task::Added.new(task.as_event_data)
 
     redirect_back fallback_location: tasks_path
   end
 
   def complete
     task = CompleteTask.run!(task: params[:id])
-    TaskCompleted.new(task.as_event_data).stream
+    EDA.stream Task::Completed.new(task.as_event_data)
 
     redirect_back fallback_location: tasks_path
   end

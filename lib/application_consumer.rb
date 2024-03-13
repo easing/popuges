@@ -3,6 +3,6 @@
 ##
 class ApplicationConsumer < Karafka::BaseConsumer
   def consume
-    messages.each &::Handler.method(:run)
+    messages.each { |message| EDA.consume(message.payload) }
   end
 end

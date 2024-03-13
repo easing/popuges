@@ -23,31 +23,31 @@ class User < ::ApplicationRecord
            class_name: 'Doorkeeper::AccessGrant',
            foreign_key: :resource_owner_id,
            inverse_of: :resource_owner,
-           dependent: :delete_all # or :destroy if you need callbacks
+           dependent: :delete_all
 
   has_many :access_tokens,
            class_name: 'Doorkeeper::AccessToken',
            foreign_key: :resource_owner_id,
            inverse_of: :resource_owner,
-           dependent: :delete_all # or :destroy if you need callbacks
+           dependent: :delete_all
 
   include ::UserRoles
 
   after_initialize :set_public_id, if: :new_record?
 
-  # TODO: вынести изменение роли и регистрацию пользователей в отдельные интекракшены
-  after_commit :stream_role_change, if: :saved_change_to_role?
-  after_commit :stream_user_registration, on: :create
-
-  private
-
-  # @return [Rdkafka::Producer::DeliveryHandle]
-  def stream_role_change
-    UserRoleChanged.new({ public_id: public_id, role: role, name: name }).stream
+  # Produced Events
+  after_commit(on: :create) do
+    EDA.stream User::Registered.new(as_event_data)
+    EDA.stream User::Created.new(as_event_data)
   end
 
-  # @return [Rdkafka::Producer::DeliveryHandle]
-  def stream_user_registration
-    UserRegistered.new({ public_id: public_id, role: role, name: name }).stream
+  after_commit(on: :update) { EDA.stream(User::Updated.new(as_event_data)) }
+
+  after_commit(if: :saved_change_to_role?) do
+    ::EDA.stream User::RoleChanged.new(as_event_data)
+  end
+
+  def as_event_data
+    { public_id: public_id, role: role, name: name }
   end
 end
