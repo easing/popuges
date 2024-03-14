@@ -1,0 +1,15 @@
+h1= @user.display_name
+
+= show_for @user do |u|
+  = u.attribute :role
+  = u.attribute :balance
+
+h2= User.human_attribute_name(:transactions)
+table.table
+  - @user.transactions.each do |transaction|
+    tr
+      td: code= transaction.public_id
+      td= transaction.credit
+      td= transaction.debit
+      td= transaction.description
+      td= transaction.created_at

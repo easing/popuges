@@ -24,4 +24,8 @@ class User < ::ApplicationRecord
           inverse_of: :user,
           class_name: "BillingCycle",
           dependent: :restrict_with_exception
+
+  def balance
+    current_billing_cycle&.transactions&.sum("debit - credit") || 0
+  end
 end

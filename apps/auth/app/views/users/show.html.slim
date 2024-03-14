@@ -1,0 +1,11 @@
+h1= @user.name
+
+.row
+  .col-sm-8
+    = show_for @user do |u|
+      = u.attribute :id
+      = u.attribute :name
+      = u.attribute :role
+      = u.attribute :created_at
+  .col-sm-4
+    img class="img-fluid" src="https://optim.tildacdn.com/tild3032-6162-4063-b638-376366353636/-/resize/642x/-/format/webp/photo.png"

@@ -1,0 +1,14 @@
+= form_tag tasks_path, method: :post, style: "display: inline;" do |f|
+  = submit_tag "Добавить задачу"
+
+| &nbsp;
+| &nbsp;
+| &nbsp;
+
+= form_tag reassign_tasks_path, method: :patch, style: "display: inline;" do |f|
+  = submit_tag "Перемешать задачи"
+
+br
+br
+
+= render_grid @grid

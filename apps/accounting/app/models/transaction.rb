@@ -27,6 +27,7 @@ class Transaction < ApplicationRecord
     {
       public_id: public_id,
       user_id: billing_cycle.user.public_id,
+      description: description,
       credit: credit,
       debit: debit
     }

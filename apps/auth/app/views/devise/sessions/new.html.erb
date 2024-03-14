@@ -7,70 +7,29 @@
   <title>aTES</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <style>
-    .topnav {
-      display: block;
-      padding: 1em 0;
-      /*border-bottom: 2px solid #aaa;*/
-    }
-
-    .topnav__container {
+    body {
       display: flex;
-    }
-
-    .topnav__logotype {
-      flex: 0 1 6em;
-    }
-
-    .topnav__navigation {
-      flex: 1;
-    }
-
-    .topnav__user {
-      flex: 0 1 200px;
-      text-align: right;
-    }
-
-    .topnav__user form {
-      display: inline;
-    }
-
-    .logotype {
-      display: inline;
-      font-size: 1.35em;
-      font-weight: bold;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .nav li {
-      display: inline-block;
-      padding: 0;
-      margin-right: 2em;
-    }
-
-    .nav a {
-      text-decoration: none;
-      border-bottom: 2px solid #f5f5f5;
-    }
-
-    .nav a:hover {
-      border-bottom-color: rgba(var(--bs-link-color-rgb));
-    }
-
-    .nav a.active {
-      color: seagreen;
-      border-bottom-color: var(--bs-green);
-      text-decoration: none;
+      align-items: center;
+      height: 100vh;
+      background-color: #fafafa;
+      /*background-color: #86ac6fff;*/
+      /*background-color: #112219;*/
+      background-image: url(https://optim.tildacdn.com/tild3861-6165-4263-b264-616465303438/-/resize/766x/-/format/webp/___.png);
+      /*background-image: url(https://optim.tildacdn.com/tild6231-6433-4438-a634-613434306637/-/format/webp/_.png);*/
+      background-position: 100% 70%;
+      background-repeat: no-repeat;
+      background-size: 20%;
     }
 
     h1 {
       font-weight: bold;
+    }
+
+    h2 {
+      font-size: 3em;
+      font-weight: bold;
+      margin-bottom: .5em;
+      color: #112219;
     }
 
     table {
@@ -84,43 +43,58 @@
       border-bottom: 1px solid #eee;
       padding: .5em 1em;
     }
+
+    .card {
+      background: rgba(255, 255, 255, .9);
+      padding: 1em 2%;
+      border: none;
+    }
+
+    label {
+      display: block;
+      line-height: 1.5;
+      color: #999;
+      padding-bottom: .25em;
+    }
+
+    .field {
+      margin-bottom: 1.5em;
+    }
+
+    input {
+      font-size: 1.5em;
+      padding: .25em .5em;
+      width: 100%;
+    }
+
+    input[type="button"],
+    input[type="submit"] {
+      width: auto;
+    }
+
+    .container {
+      max-width: 640px;
+      margin-left: 20%;
+    }
   </style>
 </head>
 <body>
 
-<div class="topnav">
-  <div class="topnav__container container">
-    <div class="topnav__logotype">
-      <h1 class="logotype">aTES</h1>
-    </div>
-    <div class="topnav__navigation">
-
-    </div>
-
-    <div class="topnav__user">
-
-    </div>
-  </div>
-</div>
-
 <div class="container">
   <div class="card">
     <div class="card-body">
-
-      <h2>Вход</h2>
+      <h2>Калитка в&nbsp;Попугаицу</h2>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="field">
-          <%= f.label "Почта" %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <%= f.label "Почта" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", value: "" %>
         </div>
 
         <div class="field">
-          <%= f.label "Пароль" %><br />
+          <%= f.label "Пароль" %>
           <%= f.password_field :password, autocomplete: "current-password" %>
         </div>
-
-        <br>
 
         <div class="actions">
           <%= f.submit "Войти" %>

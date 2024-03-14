@@ -1,0 +1,10 @@
+h1= @task.display_name
+
+= show_for @task do |t|
+  = t.attribute :id
+  = t.attribute :subject
+  = t.attribute :assignee do
+    = @task.assignee.display_name
+  = t.attribute :completed_at
+  = t.attribute :created_at
+  = t.attribute :updated_at

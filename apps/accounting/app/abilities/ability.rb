@@ -7,6 +7,7 @@ class Ability < ApplicationAbility
 
   def role_administrator
     can_read_transactions
+    can_read_users
   end
 
   def can_read_own_transactions
@@ -16,5 +17,9 @@ class Ability < ApplicationAbility
 
   def can_read_transactions
     can :read, Transaction
+  end
+
+  def can_read_users
+    can :read, User
   end
 end

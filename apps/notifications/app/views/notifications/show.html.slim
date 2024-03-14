@@ -1,0 +1,8 @@
+h1= @notification.class.model_name.human
+
+= show_for @notification do |n|
+  = n.attribute :id
+  = n.attribute :subject
+  = n.attribute :user do
+    = @notification.user.display_name
+  = n.attribute :created_at

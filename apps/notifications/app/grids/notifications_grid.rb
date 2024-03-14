@@ -1,6 +1,4 @@
-class NotificationsGrid
-  include Datagrid
-
+class NotificationsGrid < ApplicationGrid
   scope { Notification }
 
   column :id

@@ -1,7 +1,7 @@
 module EDA
   # Событие
   class Event
-    attr_reader :version, :errors
+    attr_reader :errors, :payload
 
     class << self
       def topic(value)
@@ -12,47 +12,49 @@ module EDA
         @version = value.to_i
       end
 
+      # @param [Hash] payload
+      # @return [EDA::Event]
       def from_payload(payload)
-        instance = new(payload["data"], version: payload["event_version"])
-        instance.instance_variable_set :@payload, payload
-
+        instance = new
+        instance.instance_variable_set :@payload, EDA.serialize(payload).with_indifferent_access.freeze
         instance
       end
     end
 
-    def initialize(params = {}, version: self.class.version)
-      @params = params
-      @version = version.to_i
+    def initialize(data = {}, producer: EDA.service_name, version: self.class.version)
+      @data = data
+      @producer = producer
+      @version = version
     end
 
+    # @return [String]
     def topic = self.class.instance_variable_get(:@topic)
 
+    # @return [UUID]
     def id = payload["event_id"]
 
+    # @return [String]
     def name = payload["event_name"]
 
+    # @return [Integer]
+    def version = payload["event_version"]
+
+    # @return [Hash]
     def data = payload["data"]
 
     def payload
-      @payload ||= {
+      @payload ||= EDA.serialize(
         event_id: SecureRandom.uuid,
         event_name: self.class.name.gsub(/::V\d+/, ""),
         event_time: Time.current.to_s,
-        event_version: version,
-        producer: Rails.application.class.name&.deconstantize&.downcase,
-        data: @params.as_json
-      }.with_indifferent_access.freeze
-    end
-
-    def as_json
-      {
-        topic: topic,
-        payload: payload.to_json
-      }
+        event_version: @version,
+        producer: @producer,
+        data: @data.as_json
+      ).with_indifferent_access.freeze
     end
 
     def valid?
-      @errors ||= EDA.registry.validate(self)
+      @errors ||= EDA.validate(self)
       @errors.empty?
     end
   end

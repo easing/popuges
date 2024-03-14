@@ -5,7 +5,7 @@ class Task::AssignedConsumer < EDA::Consumer
   version 1 do
     task = Task.create_or_update_from_event(event.data)
 
-    PricifyTask.run!(task: task) unless task.priced?
+    Task::Pricify.run!(task: task) unless task.priced?
 
     User::ChangeBalance.run!(
       transaction_type: "task.assigned",

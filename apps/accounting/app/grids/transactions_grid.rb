@@ -1,6 +1,4 @@
-class TransactionsGrid
-  include Datagrid
-
+class TransactionsGrid < ApplicationGrid
   scope { Transaction }
 
   column :id

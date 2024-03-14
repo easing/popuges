@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "UserBalanceChanged.v1",
+  "title": "User::BalanceChanged.v1",
   "description": "",
   "definitions": {
     "event_data": {
@@ -10,6 +10,9 @@
           "type": "string"
         },
         "user_id": {
+          "type": "string"
+        },
+        "description": {
           "type": "string"
         },
         "debit": {
@@ -22,6 +25,7 @@
       "required": [
         "public_id",
         "user_id",
+        "description",
         "debit",
         "credit"
       ]
@@ -33,6 +37,7 @@
       "type": "string"
     },
     "event_version": {
+      "type": "integer",
       "enum": [
         1
       ]

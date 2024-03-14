@@ -1,0 +1,10 @@
+h1= @transaction.display_name
+
+= show_for @transaction do |t|
+  = t.attribute :id
+  = t.attribute :description
+  = t.attribute :user do
+    = @transaction.user.display_name
+  = t.attribute :credit
+  = t.attribute :debit
+  = t.attribute :created_at

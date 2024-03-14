@@ -3,6 +3,7 @@ ruby File.read('.ruby-version').strip
 
 gem 'pg', '~> 1.5.5'
 gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
+gem 'slim-rails'
 
 gem 'bootsnap', require: false
 gem 'puma', '>= 5.0'
@@ -31,4 +32,10 @@ gem 'omniauth-rails_csrf_protection'
 gem 'cancancan'
 
 gem 'json-schema'
+gem 'json-schema-serializer'
+gem 'json_refs'
+
 gem 'datagrid'
+gem 'show_for'
+gem 'simple_form'
+gem 'pagy'

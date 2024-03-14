@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TaskAssigned.v1",
+  "title": "Task::Assigned.v1",
   "description": "",
   "definitions": {
     "event_data": {
@@ -29,6 +29,7 @@
       "type": "string"
     },
     "event_version": {
+      "type": "integer",
       "enum": [
         1
       ]

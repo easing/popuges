@@ -1,0 +1,6 @@
+h1= @user.display_name
+
+= show_for @user do |t|
+  = t.attribute :id
+  = t.attribute :name
+  = t.attribute :role

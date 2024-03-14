@@ -1,6 +1,4 @@
-class TasksGrid
-  include Datagrid
-
+class TasksGrid < ApplicationGrid
   scope { Task }
 
   column :id

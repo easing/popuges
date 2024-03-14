@@ -1,6 +1,4 @@
-class UsersGrid
-  include Datagrid
-
+class UsersGrid < ApplicationGrid
   scope { User }
 
   column :id

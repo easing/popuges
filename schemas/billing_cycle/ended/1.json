@@ -15,6 +15,7 @@
       "type": "string"
     },
     "event_version": {
+      "type": "integer",
       "enum": [
         1
       ]

@@ -9,7 +9,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def display_name
-    name.presence || "#{self.class.model_name.human} #{id}"
+    (name if respond_to?(:name)).presence || "#{self.class.model_name.human} #{id}"
   end
 
   def as_event_data
