@@ -13,6 +13,19 @@
 class Task < ApplicationRecord
   belongs_to :assignee, class_name: "User"
 
+  before_validation do
+    self.jira_id ||= begin
+                       match = subject.match(/\[(.*)\]/)
+                       if match
+                         match[1]
+                       else
+                         ""
+                       end
+                     end
+
+    self.subject = subject.gsub(/\[.*\]/, "").strip
+  end
+
   scope :completed, -> { where.not(completed_at: nil) }
   scope :not_completed, -> { where(completed_at: nil) }
 
@@ -22,8 +35,15 @@ class Task < ApplicationRecord
 
   after_initialize :set_public_id, if: :new_record?
 
-  after_commit(on: :create) { EDA.stream Task::Created.new(as_event_data) }
-  after_commit(on: :update) { EDA.stream Task::Updated.new(as_event_data) }
+  after_commit(on: :create) do
+    EDA.stream Task::Created.new(as_event_data)
+    EDA.stream Task::Created.new(as_event_data, version: 1) # TODO: убрать после миграции события
+  end
+
+  after_commit(on: :update) do
+    EDA.stream Task::Updated.new(as_event_data)
+    EDA.stream Task::Updated.new(as_event_data, version: 1) # TODO: убрать после миграции события
+  end
 
   def completed? = completed_at.present?
 
@@ -32,7 +52,8 @@ class Task < ApplicationRecord
       public_id: public_id,
       assignee_id: assignee.public_id,
       completed_at: completed_at,
-      subject: subject
+      subject: subject,
+      jira_id: jira_id,
     }
   end
 end

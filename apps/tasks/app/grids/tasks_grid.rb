@@ -3,6 +3,10 @@ class TasksGrid < ApplicationGrid
 
   column :id
 
+  column :jira_id, html: true do |task|
+    content_tag(:code, task.jira_id)
+  end
+
   column :subject
 
   column :assignee, html: true do |record|

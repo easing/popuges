@@ -29,6 +29,10 @@ class Transaction < ApplicationRecord
 
   validates :debit, :credit, numericality: { greater_than_or_equal_to: 0 }
 
+  def display_name
+    jira_id.presence || subject
+  end
+
   def as_event_data
     {
       user_id: billing_cycle.user.public_id,

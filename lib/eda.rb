@@ -61,9 +61,11 @@ module EDA
   # @return [Object]
   def self.serialize(payload)
     payload = payload.with_indifferent_access
-    schema = registry.schema_for(payload["event_name"], version: payload["event_version"])
-    serializer = JSON::Schema::Serializer.new JsonRefs.call(schema.schema)
 
+    schema = registry.schema_for(payload["event_name"], version: payload["event_version"])
+    raise NotImplementedError unless schema
+
+    serializer = JSON::Schema::Serializer.new JsonRefs.call(schema.schema)
     serializer.serialize(payload)
   end
 

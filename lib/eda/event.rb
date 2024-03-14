@@ -4,14 +4,19 @@ module EDA
   # Событие
   class Event
     attr_reader :errors
+    cattr_writer :version
 
     class << self
       def topic(value)
         @topic = value.to_s
       end
 
-      def version(value = 1)
-        @version = value.to_i
+      def version(value = nil)
+        if value.nil?
+          @version ||= 1
+        else
+          @version = value.to_i
+        end
       end
 
       # @param [Hash] payload

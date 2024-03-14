@@ -1,5 +1,5 @@
 class AddTask < ApplicationInteraction
-  string :subject, default: -> { SecureRandom.hex }
+  string :subject, default: -> { "[#{SecureRandom.hex(2)}] #{SecureRandom.hex}" }
   record :user, default: nil
 
   def execute
