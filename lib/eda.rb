@@ -49,9 +49,7 @@ module EDA
       return
     end
 
-    event_name = event.payload["event_name"]
-    handler_class = "#{event_name}Consumer".safe_constantize
-
+    handler_class = "#{event.name}Consumer".safe_constantize
     return unless handler_class
 
     # Если у задачи есть обработчик, запускаем его
