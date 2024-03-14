@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_03_115719) do
 
   create_table "transactions", force: :cascade do |t|
     t.bigint "billing_cycle_id", null: false
+    t.string "transaction_type", null: false
     t.string "description", default: "", null: false
     t.integer "debit", default: 0, null: false
     t.integer "credit", default: 0, null: false

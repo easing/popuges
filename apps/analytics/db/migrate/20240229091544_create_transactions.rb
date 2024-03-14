@@ -1,6 +1,7 @@
 class CreateTransactions < ActiveRecord::Migration[7.1]
   def change
     create_table :transactions do |t|
+      t.string :transaction_type, null: false
       t.string :description, null: false, default: ""
       t.references :user, null: false
 

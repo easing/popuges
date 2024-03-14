@@ -2,8 +2,8 @@
 
 #
 class User::RegisteredConsumer < EDA::Consumer
-  def call
-    user = User.create_or_update_from_event(data)
+  version 1 do
+    user = User.create_or_update_from_event(event.data)
     Notification.create!(subject: "У нас новый пользователь: #{user.name}")
   end
 end

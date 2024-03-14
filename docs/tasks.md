@@ -20,19 +20,19 @@
 ## Производит события
 
 - Бизнес-события
-  - `TaskAdded`
-  - `TaskAssigned`
-  - `TaskCompleted`
+  - `Task::Added`
+  - `Task::Assigned`
+  - `Task::Completed`
 
 - Синхронизация данных
-  - `TaskCreated`
-  - `TaskUpdated`
+  - `Task::Created`
+  - `Task::Updated`
 
 ## Потребляет события
 
 - Бизнес-события
-  - `UserRegistered`
-  - `UserRoleChanged`
+  - `User::Registered`
+  - `User::RoleChanged`
 
 - Синхронизация данных
   - —

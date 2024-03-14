@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_091544) do
   end
 
   create_table "transactions", force: :cascade do |t|
+    t.string "transaction_type", null: false
     t.string "description", default: "", null: false
     t.bigint "user_id", null: false
     t.integer "debit", default: 0, null: false

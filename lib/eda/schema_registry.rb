@@ -4,15 +4,11 @@ module EDA
   # Реестр схем
   class SchemaRegistry
     def initialize(root_path)
-      @root_path = root_path
-
-      # TODO: загружать все схемы при инициализации
-      @schemas = {}
-
-      load_schemas
+      @schemas = load_schemas(root_path)
     end
 
-    # @param [EDA::Event] event
+    # @param [String] event_name
+    # @param [Integer] version
     def schema_for(event_name, version: 1)
       @schemas[schema_key_for(event_name, version: version)]
     end
@@ -25,13 +21,13 @@ module EDA
 
     private
 
-    # Загрузить все схемы
-    def load_schemas
+    def load_schemas(root_path)
       Rails.root
-           .glob("#{@root_path}/**/*.json")
-           .each { |schema_path|
-             event_key = schema_path.to_s.gsub(Rails.root.join(@root_path).to_s, "").gsub(/\A\//, "")
-             @schemas[event_key] ||= JSON::Schema::Reader.new.read(schema_path)
+           .glob("#{root_path}/**/*.json")
+           .inject({}) { |schemas, schema_path|
+             event_key = schema_path.to_s.gsub(Rails.root.join(root_path).to_s, "").gsub(/\A\//, "")
+             schemas[event_key] ||= JSON::Schema::Reader.new.read(schema_path)
+             schemas
            }
     end
   end

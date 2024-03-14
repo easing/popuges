@@ -57,6 +57,8 @@ module EDA
   end
 
   # Привести данные к схеме события
+  # @param [Hash] payload
+  # @return [Object]
   def self.serialize(payload)
     payload = payload.with_indifferent_access
     schema = registry.schema_for(payload["event_name"], version: payload["event_version"])

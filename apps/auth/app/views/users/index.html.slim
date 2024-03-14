@@ -1,6 +1,7 @@
-= form_tag create_popug_users_path, method: :post do |f|
-  = submit_tag "Создать попуга"
+- if can?(:create, User)
+  = form_tag create_popug_users_path, method: :post do |f|
+    = submit_tag "Создать попуга"
 
-br
+  br
 
 = render_grid @grid

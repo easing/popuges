@@ -12,6 +12,12 @@
 #  updated_at       :datetime         not null
 #
 class Transaction < ApplicationRecord
+
+  enum transaction_type: {
+    task_assigned: "task.assigned",
+    task_completed: "task.completed"
+  }
+
   belongs_to :billing_cycle
   has_one :user, through: :billing_cycle
 
@@ -25,11 +31,18 @@ class Transaction < ApplicationRecord
 
   def as_event_data
     {
-      public_id: public_id,
       user_id: billing_cycle.user.public_id,
+      public_id: public_id,
+      transaction_type: transaction_type,
       description: description,
       credit: credit,
       debit: debit
     }
+  end
+
+  def self.report(transactions)
+    transactions
+      .select("sum(credit - debit)")
+      .group("date_trunc('hour', created_at)")
   end
 end

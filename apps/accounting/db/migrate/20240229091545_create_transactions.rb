@@ -3,6 +3,7 @@ class CreateTransactions < ActiveRecord::Migration[7.1]
     create_table :transactions do |t|
       t.references :billing_cycle, null: false
 
+      t.string :transaction_type, null: false
       t.string :description, null: false, default: ""
 
       t.integer :debit, null: false, default: 0

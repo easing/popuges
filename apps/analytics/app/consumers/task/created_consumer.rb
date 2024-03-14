@@ -1,5 +1,5 @@
-class Transaction::CreatedConsumer < EDA::Consumer
+class Task::CreatedConsumer < EDA::Consumer
   version 1 do
-    Transaction.create_or_update_from_event(event.data)
+    Task.create_or_update_from_event(event.data)
   end
 end

@@ -32,22 +32,20 @@
 ## Производит события
 
   - Бизнес-события
-    - `User::BalanceChanged` — изменился баланс пользователя 
-    - `WageCalculated` — рассчитана зарплата пользователя
-
-  - Синхронизация данных    
-    - —
+    - `User::BalanceChanged` — изменился баланс пользователя
+    - `BillingCycle::Closed` — рассчитана зарплата пользователя
 
 ## Потребляет события
 
-  - Бизнес-события
-    - `TaskCreated` — задача создана
-    - `TaskAssigned` — задача назначена
-    - `TaskCompleted` — задача выполнена
+  - Бизнес-события 
+    - `Task::Added` — задача добавлена
+    - `Task::Assigned` — задача назначена на пользователя
+    - `Task::Completed` — задача выполнена
 
   - Синхронизация данных
-    - `UserCreated` — профиль пользователя создан
-    - `UserUpdated` — профиль пользователя изменён    
+    - `Task::Created` — задача создана
+    - `User::Created` — профиль пользователя создан
+    - `User::Updated` — профиль пользователя изменён    
 
 ## Модель данных
 
@@ -89,12 +87,12 @@
 - created\_at: DateTime
 - updated\_at: DateTime
 
-### Wage
+### BillingCycle
 
 - id: UUID
 - user: User
-- day: Date
-- amount: Money (>= 0)**
+- name: String
+- amount: Money
 - created\_at: DateTime
 - updated\_at: DateTime
 

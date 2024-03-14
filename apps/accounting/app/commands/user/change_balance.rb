@@ -5,6 +5,7 @@ class User::ChangeBalance < ApplicationInteraction
   integer :debit, default: 0
 
   string :description
+  string :transaction_type
 
   run_in_transaction!
 
@@ -16,6 +17,7 @@ class User::ChangeBalance < ApplicationInteraction
 
       transaction = Transaction.create!(
         billing_cycle: billing_cycle,
+        transaction_type: transaction_type,
         description: description,
         debit: debit,
         credit: credit

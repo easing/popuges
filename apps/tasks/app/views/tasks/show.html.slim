@@ -2,6 +2,7 @@ h1= @task.display_name
 
 = show_for @task do |t|
   = t.attribute :id
+  = t.attribute :public_id
   = t.attribute :subject
   = t.attribute :assignee do
     = @task.assignee.display_name

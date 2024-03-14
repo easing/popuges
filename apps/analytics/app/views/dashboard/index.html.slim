@@ -1,0 +1,36 @@
+.row
+  .col-sm-4
+    .alert.alert-success
+      p Сегодня отличный день
+      h3== "#{@daily_stats["count"]} 🦜 в&nbsp;минусе"
+  .col-sm-4
+    .alert.alert-success
+      p И, кстати, мы на этом подняли
+      h3= "#{@daily_stats["sum"].to_i} 💸"
+  .col-sm-4
+    .alert.alert-success
+      p А попуги получили
+      h3= "#{@daily_stats["debit"].to_i} 💸"
+
+br
+
+table.table
+  thead
+    tr
+      th День
+      th Выдали задач на
+      th Попуги закрыли задач на
+      th Топовое закрытие
+      th Прибыль компании
+      th Попугов в минусе
+      th Прибыль от лузеров
+
+  - @stats_by_day.each do |row|
+    tr
+      td= row[:day]
+      td= row[:credit]
+      td= row[:debit]
+      td= row[:max_debit]
+      td= row[:balance]
+      td= row[:failed_users_count]
+      td= row[:failed_users_profit]&.to_i

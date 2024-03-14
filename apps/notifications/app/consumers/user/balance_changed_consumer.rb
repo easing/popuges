@@ -2,7 +2,7 @@
 
 #
 class User::BalanceChangedConsumer < EDA::Consumer
-  version 1 do |event|
+  version 1 do
     Notification.transaction do
       user = User.create_or_update_from_event("public_id" => event.data["user_id"])
       Notification.create!(subject: "У вас изменился баланс: #{data.slice("debit", "credit").inspect}", user: user)
