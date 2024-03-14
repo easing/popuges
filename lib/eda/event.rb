@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module EDA
   # Событие
   class Event
-    attr_reader :errors, :payload
+    attr_reader :errors
 
     class << self
       def topic(value)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module EDA
   # Реестр схем
   class SchemaRegistry
@@ -25,12 +27,12 @@ module EDA
 
     # Загрузить все схемы
     def load_schemas
-      Dir
-        .glob(Rails.root.join(@root_path, "**/*.json"))
-        .map do |schema_path|
-        event_key = schema_path.gsub(Rails.root.join(@root_path).to_s, "").gsub(/\A\//, "")
-        @schemas[event_key] ||= JSON::Schema::Reader.new.read(schema_path)
-      end
+      Rails.root
+           .glob("#{@root_path}/**/*.json")
+           .each { |schema_path|
+             event_key = schema_path.to_s.gsub(Rails.root.join(@root_path).to_s, "").gsub(/\A\//, "")
+             @schemas[event_key] ||= JSON::Schema::Reader.new.read(schema_path)
+           }
     end
   end
 end

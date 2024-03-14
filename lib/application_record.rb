@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#
+##
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
@@ -23,7 +23,7 @@ class ApplicationRecord < ActiveRecord::Base
     record = create_with("role" => "", "name" => "", **attributes_from_event).find_or_create_by!(public_id: data["public_id"])
     record.update!(attributes_from_event)
 
-    Rails.logger.debug "#{record.class.name} created or updated from #{data}"
+    Rails.logger.debug { "#{record.class.name} created or updated from #{data}" }
 
     record
   end

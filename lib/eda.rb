@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+require "json/schema/serializer"
+require "json_refs"
+
 ##
 module EDA
   cattr_accessor :producer, :registry, :serializer, :service_name
@@ -13,7 +18,11 @@ module EDA
     if event.valid?
       producer.produce_async(topic: event.topic, payload: event.payload.to_json)
     else
-      Rails.error.report "INVALID EVENT => #{self.class.name}.#{event.version} => payload: (#{event.payload.inspect}), errors: (#{event.errors.join(";")})"
+      Rails.logger.debug <<~TEXT.squish
+        INVALID EVENT => #{self.class.name}.#{event.version} =>
+        payload: (#{event.payload.inspect}),
+        errors: (#{event.errors.join(';')})"
+      TEXT
     end
   end
 
@@ -53,7 +62,7 @@ module EDA
   def self.serialize(payload)
     payload = payload.with_indifferent_access
     schema = registry.schema_for(payload["event_name"], version: payload["event_version"])
-    serializer = JSON::Schema::Serializer.new JsonRefs.(schema.schema)
+    serializer = JSON::Schema::Serializer.new JsonRefs.call(schema.schema)
 
     serializer.serialize(payload)
   end

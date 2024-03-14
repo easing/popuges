@@ -1,41 +1,43 @@
-source 'https://rubygems.org'
-ruby File.read('.ruby-version').strip
+# frozen_string_literal: true
 
-gem 'pg', '~> 1.5.5'
-gem 'rails', '~> 7.1.3', '>= 7.1.3.2'
-gem 'slim-rails'
+source "https://rubygems.org"
+ruby File.read(".ruby-version").strip
 
-gem 'bootsnap', require: false
-gem 'puma', '>= 5.0'
-gem 'tzinfo-data', platforms: %i[mswin mswin64 mingw x64_mingw jruby]
+gem "pg", "~> 1.5.5"
+gem "rails", "~> 7.1.3", ">= 7.1.3.2"
+gem "slim-rails"
+
+gem "bootsnap", require: false
+gem "puma", ">= 5.0"
+gem "tzinfo-data", platforms: %i[mswin mswin64 mingw x64_mingw jruby]
 
 group :development, :test do
   # gem 'debug', platforms: %i[mri mswin mswin64 mingw x64_mingw]
-  gem 'dotenv'
+  gem "dotenv"
 
-  gem 'annotate'
+  gem "annotate"
 
-  gem 'rubocop', '~> 1.41', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec', require: false
+  gem "rubocop", "~> 1.41", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
 end
 
-gem 'karafka'
+gem "karafka"
 
-gem 'active_interaction', '~> 5.3'
-gem 'active_interaction-extras'
+gem "active_interaction", "~> 5.3"
+gem "active_interaction-extras"
 
-gem 'devise'
-gem 'omniauth-oauth2'
-gem 'omniauth-rails_csrf_protection'
-gem 'cancancan'
+gem "devise"
+gem "omniauth-oauth2"
+gem "omniauth-rails_csrf_protection"
+gem "cancancan"
 
-gem 'json-schema'
-gem 'json-schema-serializer'
-gem 'json_refs'
+gem "json-schema"
+gem "json-schema-serializer"
+gem "json_refs"
 
-gem 'datagrid'
-gem 'show_for'
-gem 'simple_form'
-gem 'pagy'
+gem "datagrid"
+gem "show_for"
+gem "simple_form"
+gem "pagy"

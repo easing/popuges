@@ -12,7 +12,7 @@ class ReassignTasks < ApplicationInteraction
     end
 
     events = assigned_tasks.map { |task| Task::Assigned.new(task.as_event_data) }
-    pp events
+    Rails.logger.debug events
     EDA.stream_batch events
   end
 

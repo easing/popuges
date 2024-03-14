@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "pathname"
 
 base_path = Pathname.new(Dir.pwd)

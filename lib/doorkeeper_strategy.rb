@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 class DoorkeeperStrategy < OmniAuth::Strategies::OAuth2
   option :name, :doorkeeper
@@ -11,7 +13,7 @@ class DoorkeeperStrategy < OmniAuth::Strategies::OAuth2
   info { raw_info }
 
   def raw_info
-    @raw_info ||= access_token.get('/oauth/token/info.json').parsed
+    @raw_info ||= access_token.get("/oauth/token/info.json").parsed
   end
 
   # https://github.com/intridea/omniauth-oauth2/issues/81
