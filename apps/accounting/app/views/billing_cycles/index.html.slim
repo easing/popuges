@@ -1,0 +1,17 @@
+table.table
+  col width="200px"
+  col width="*"
+  thead
+    tr
+      th Дата
+      th Цикл
+      th Попуг
+      th Сумма
+      th Открыт?
+  - @billing_cycles.each do |billing_cycle|
+    tr
+      td= billing_cycle.created_at.to_date
+      td= billing_cycle.name
+      td= billing_cycle.user.display_name
+      td= billing_cycle.balance
+      td= billing_cycle.current? ? "Открыт" : "Закрыт"

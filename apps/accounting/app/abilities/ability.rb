@@ -6,8 +6,17 @@ class Ability < ApplicationAbility
   end
 
   def role_administrator
-    can_read_transactions
     can_read_users
+    can_read_transactions
+    can_read_billing_cycles
+    can_close_billing_cycles
+  end
+
+  def role_accountant
+    can_read_users
+    can_read_transactions
+    can_read_billing_cycles
+    can_close_billing_cycles
   end
 
   def can_read_own_transactions
@@ -21,5 +30,13 @@ class Ability < ApplicationAbility
 
   def can_read_users
     can :read, User
+  end
+
+  def can_close_billing_cycles
+    can :close, BillingCycle, current: true
+  end
+
+  def can_read_billing_cycles
+    can :read, BillingCycle
   end
 end

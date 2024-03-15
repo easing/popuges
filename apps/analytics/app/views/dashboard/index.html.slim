@@ -1,15 +1,29 @@
 .row
   .col-sm-4
-    .alert.alert-success
-      p Сегодня отличный день
-      h3== "#{@daily_stats["count"]} 🦜 в&nbsp;минусе"
+    - if @daily_stats["count"] > 0
+      .alert.alert-success
+        p Сегодня отличный день
+        h3== "#{@daily_stats["count"]} 🦜 в&nbsp;минусе"
+    - else
+      .alert.alert-danger
+        p Сегодня не очень день
+        h3== "Все попуги в&nbsp;плюсе :("
+  .col-sm-4
+    - if @daily_stats["sum"].to_i > 0
+      .alert.alert-success
+        p Компания заработала
+        h3= "#{@daily_stats["sum"].to_i} 💸"
+    - elsif @daily_stats["sum"].to_i == 0
+      .alert.alert-warning
+        p Но хотя бы мы не потеряли денег
+    - else
+      .alert.alert-danger
+        p Теряем деньги :(
+        h3= "#{@daily_stats["sum"].to_i} 💸"
+
   .col-sm-4
     .alert.alert-success
-      p И, кстати, мы на этом подняли
-      h3= "#{@daily_stats["sum"].to_i} 💸"
-  .col-sm-4
-    .alert.alert-success
-      p А попуги получили
+      p У попугов уже
       h3= "#{@daily_stats["debit"].to_i} 💸"
 
 br

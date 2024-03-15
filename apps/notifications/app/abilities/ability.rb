@@ -14,6 +14,6 @@ class Ability < ApplicationAbility
   end
 
   def can_read_notifications
-    can :read, Notification
+    can :read, Notification, user: nil
   end
 end

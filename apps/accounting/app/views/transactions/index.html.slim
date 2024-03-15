@@ -1,1 +1,10 @@
+- if can?(:close, BillingCycle)
+  = form_tag close_billing_cycles_path, method: :post do
+    = submit_tag "Выплатить зарплату"
+
+| &nbsp;&nbsp;&nbsp;
+
+a href=billing_cycles_path Зарплата
+
+
 = render_grid @grid

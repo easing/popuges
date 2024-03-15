@@ -5,6 +5,11 @@ Rails.application.routes.draw do
 
   resources :transactions, only: [:index, :show]
   resources :users, only: [:index, :show]
+  resources :billing_cycles, only: [:index] do
+    collection do
+      post :close
+    end
+  end
 
   root to: redirect("/transactions")
 

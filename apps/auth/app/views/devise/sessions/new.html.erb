@@ -88,12 +88,12 @@
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="field">
           <%= f.label "Ваша почта" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", value: "" %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", value: "administrator@easing.ru" %>
         </div>
 
         <div class="field">
           <%= f.label "Приложите клюв" %>
-          <%= f.password_field :password, autocomplete: "current-password" %>
+          <%= f.password_field :password, autocomplete: "current-password", value: "administrator" %>
         </div>
 
         <div class="actions">
