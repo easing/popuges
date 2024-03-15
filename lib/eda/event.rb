@@ -4,7 +4,6 @@ module EDA
   # Событие
   class Event
     attr_reader :errors
-    cattr_writer :version
 
     class << self
       def topic(value)
@@ -17,6 +16,15 @@ module EDA
         else
           @version = value.to_i
         end
+      end
+
+      # @param [TrueClass] value
+      def transactional!(value = "true")
+        @transactional = value.to_s == "true"
+      end
+
+      def transactional?
+        @transactional == true
       end
 
       # @param [Hash] payload
@@ -49,6 +57,7 @@ module EDA
     # @return [Hash]
     def data = payload["data"]
 
+    # @return [Hash]
     def payload
       @payload ||= EDA.serialize(
         event_id: SecureRandom.uuid,
@@ -63,6 +72,10 @@ module EDA
     def valid?
       @errors ||= EDA.validate(self)
       @errors.empty?
+    end
+
+    def transactional?
+      self.class.transactional?
     end
   end
 end

@@ -16,7 +16,11 @@ module EDA
   # @param [EDA::Event] event
   def self.stream(event)
     if event.valid?
-      producer.produce_async(topic: event.topic, payload: event.payload.to_json)
+      if event.transactional?
+        EDA::Outbox.insert(event.payload.merge(topic: event.topic))
+      else
+        producer.produce_async(topic: event.topic, payload: event.payload.to_json)
+      end
     else
       Rails.logger.debug <<~TEXT.squish
         INVALID EVENT => #{self.class.name}.#{event.version} =>
@@ -24,6 +28,8 @@ module EDA
         errors: (#{event.errors.join(';')})"
       TEXT
     end
+
+    event
   end
 
   # @param [[EDA::Event]] events

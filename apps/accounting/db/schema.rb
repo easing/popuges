@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_14_180816) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_15_070430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_14_180816) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_billing_cycles_on_user_id"
+  end
+
+  create_table "eda_outbox", force: :cascade do |t|
+    t.string "topic", null: false
+    t.uuid "event_id", null: false
+    t.string "event_name", null: false
+    t.datetime "event_time", precision: nil, null: false
+    t.integer "event_version", null: false
+    t.string "producer", null: false
+    t.jsonb "data", default: {}, null: false
+    t.index ["event_id"], name: "index_eda_outbox_on_event_id", unique: true
   end
 
   create_table "tasks", force: :cascade do |t|
