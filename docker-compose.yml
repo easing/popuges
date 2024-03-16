@@ -28,8 +28,6 @@ services:
     volumes:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - backend
 
   whoami:
     image: "traefik/whoami"
@@ -175,8 +173,6 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - tasks-db
-    networks:
-      - backend
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.tasks.rule=Host(`tasks.${APP_HOST}`)"
@@ -222,12 +218,6 @@ services:
 #      KAFKA_ADVERTISED_HOST_NAME: 192.168.1.142
 #    volumes:
 #      - kafka:/var/lib/kafka/data
-
-networks:
-  backend:
-  traefik:
-    external: true
-    name: traefik
 
 volumes:
   kafka:
