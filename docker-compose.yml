@@ -41,6 +41,7 @@ services:
       - DOORKEEPER_APP_URL
       - DOORKEEPER_APP_ID=m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
     depends_on:
       - accounting-db
     volumes:
@@ -77,6 +78,7 @@ services:
       - DOORKEEPER_APP_URL
       - DOORKEEPER_APP_ID=qQ41BGrm4XICI8qK0I7Pc0tJotNPjGWQMxKucOsvqhs
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
     depends_on:
       - analytics-db
     volumes:
@@ -113,6 +115,7 @@ services:
       - DOORKEEPER_APP_URL
       - DOORKEEPER_APP_ID=m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
     depends_on:
       - auth-db
     volumes:
@@ -143,6 +146,7 @@ services:
       - DOORKEEPER_APP_URL
       - DOORKEEPER_APP_ID=erSn4By1vuRDygDvFl79zahbUsfBxhuEWUZipFRSq4M
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
     depends_on:
       - notifications-db
     volumes:
@@ -175,9 +179,11 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres@tasks-db:5432
       - SECRET_KEY_BASE
+      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
       - DOORKEEPER_APP_URL
       - DOORKEEPER_APP_ID=iy-sQH3SyV3LlDXpnvZrwazSKYDgrUNOG_1SIcCLN68
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
     depends_on:
       - tasks-db
     volumes:
