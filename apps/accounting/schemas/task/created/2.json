@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Task::Created.v2",
+  "description": "",
+  "definitions": {
+    "event_data": {
+      "type": "object",
+      "properties": {
+        "public_id": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "jira_id": {
+          "type": "string"
+        },
+        "assignee_id": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "public_id",
+        "subject",
+        "jira_id",
+        "assignee_id"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string"
+    },
+    "event_version": {
+      "type": "integer",
+      "enum": [
+        2
+      ]
+    },
+    "event_name": {
+      "type": "string"
+    },
+    "event_time": {
+      "type": "string"
+    },
+    "producer": {
+      "type": "string"
+    },
+    "data": {
+      "$ref": "#/definitions/event_data"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_version",
+    "event_name",
+    "event_time",
+    "producer",
+    "data"
+  ]
+}
