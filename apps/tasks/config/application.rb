@@ -24,8 +24,8 @@ module Tasks
   class Application < Rails::Application
     config.load_defaults 7.1
     config.autoload_lib(ignore: %w[assets tasks])
-    config.autoload_paths += %W(#{config.root}/../../lib)
-    config.autoload_paths += %W(#{config.root}/../../views)
+
+    Rails.application.config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid

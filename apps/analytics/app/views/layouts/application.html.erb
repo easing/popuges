@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>aTES</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      background: #fafafa;
+      padding-bottom: 2em;
+    }
+
+    .topnav {
+      display: block;
+      padding: 1em 0;
+      /*border-bottom: 2px solid #aaa;*/
+    }
+
+    .topnav__container {
+      display: flex;
+    }
+
+    .topnav__logotype {
+      flex: 0 1 6em;
+    }
+
+    .topnav__navigation {
+      flex: 1;
+    }
+
+    .topnav__user {
+      flex: 0 1 200px;
+      text-align: right;
+    }
+
+    .topnav__user form {
+      display: inline;
+    }
+
+    .logotype {
+      display: inline;
+      font-size: 1.35em;
+      font-weight: bold;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav li {
+      display: inline-block;
+      padding: 0;
+      margin-right: 2em;
+    }
+
+    .nav a {
+      text-decoration: none;
+      border-bottom: 2px solid #f5f5f5;
+    }
+
+    .nav a:hover {
+      border-bottom-color: rgba(var(--bs-link-color-rgb));
+    }
+
+    .nav a.active {
+      color: seagreen;
+      border-bottom-color: var(--bs-green);
+      text-decoration: none;
+    }
+
+    h1, h2, h3 {
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    table th,
+    table td {
+      text-align: left;
+      border-collapse: collapse;
+      border-bottom: 1px solid #eee;
+      padding: .5em 1em;
+    }
+
+    .card {
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <div class="topnav__container container">
+    <div class="topnav__logotype">
+      <h1 class="logotype">aTES</h1>
+    </div>
+    <div class="topnav__navigation">
+      <% if user_signed_in? %>
+        <ul class="nav">
+          <li>💰&nbsp;<%= link_to "Бухгалтерия", "https://accounting.popuges.easing.ru", class: ("active" if request.url.start_with?("https://accounging.popuges.easing.ru")) %></li>
+          <li>🪵&nbsp;<%= link_to "Задачи", "https://tasks.popuges.easing.ru", class: ("active" if request.url.start_with?("https://tasks.popuges.easing.ru")) %></li>
+          <li>📉&nbsp;<%= link_to "Аналитика", "https://analytics.popuges.easing.ru", class: ("active" if request.url.start_with?("https://analytics.popuges.easing.ru")) %></li>
+          <li>🔥&nbsp;<%= link_to "Уведомления", "https://notifications.popuges.easing.ru", class: ("active" if request.url.start_with?("https://tasks.popuges.easing.ru")) %></li>
+          <li>🦜&nbsp;<%= link_to "Попуги", "https://auth.popuges.easing.ru", class: ("active" if request.url.start_with?("https://auth.popuges.easing.ru")) %></li>
+        </ul>
+      <% end %>
+    </div>
+
+    <div class="topnav__user">
+      <% if user_signed_in? %>
+        <strong>
+          <%= link_to current_user.name, "https://auth.popuges.easing.ru/users/#{current_user.id}" %>
+        </strong>
+        &nbsp;
+        <%= form_for current_user, method: :delete, url: destroy_user_session_url(port: 5003) do %>
+          <input type="submit" value="Выйти"/>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <%= yield %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

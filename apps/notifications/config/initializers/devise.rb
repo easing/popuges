@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../../../../lib/doorkeeper_strategy"
+require_relative "../../lib/doorkeeper_strategy"
 
 Devise.setup do |config|
   require 'devise/orm/active_record'
