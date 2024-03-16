@@ -5,8 +5,10 @@ class KarafkaApp < Karafka::App
   setup do |config|
     config.kafka = {
       'bootstrap.servers': ENV['KAFKA_HOST'],
-      'allow.auto.create.topics': true,
-      'security.protocol': 'SASL_SCRAM'
+      'security.protocol': 'SSL',
+      'ssl.key.pem': File.read(Rails.root.join "ssl/user-access-key.key"),
+      'ssl.certificate.pem': File.read(Rails.root.join "ssl/user-access-certificate.crt"),
+      'ssl.ca.pem': File.read(Rails.root.join "ssl/ca-certificate.crt")
     }
     config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
     config.consumer_persistence = !Rails.env.development?
