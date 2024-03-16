@@ -5,7 +5,11 @@ class KarafkaApp < Karafka::App
   application_name = Rails.application.class.name.deconstantize.downcase.to_s
 
   setup do |config|
-    config.kafka = { 'bootstrap.servers': ENV['KAFKA_HOST'], 'allow.auto.create.topics': true }
+    config.kafka = {
+      'bootstrap.servers': ENV['KAFKA_HOST'],
+      'allow.auto.create.topics': true,
+      'security.protocol': 'SASL_PLAINTEXT'
+    }
     config.client_id = application_name
     config.consumer_persistence = !Rails.env.development?
   end
