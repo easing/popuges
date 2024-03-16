@@ -6,13 +6,6 @@ x-postgres: &postgres
 
 services:
 
-  nginx:
-    image: nginx:1.25.4-alpine
-    ports:
-      - "81:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-
   # Accounting
   accounting-web: &accounting
     image: popuges/accounting
@@ -26,7 +19,11 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - accounting-db
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`tasks.popuges.easing.ru`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
   accounting-consumer:
     <<: *accounting
     command: bundle exec karafka server
@@ -49,6 +46,11 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - analytics-db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`analytics.popuges.easing.ru`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
   analytics-consumer:
     <<: *analytics
@@ -72,7 +74,12 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - auth-db
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`auth.popuges.easing.ru`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      -
   auth-db:
     <<: *postgres
     volumes:
@@ -91,6 +98,11 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - auth-db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`notifications.popuges.easing.ru`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
   notifications-consumer:
     <<: *notifications
@@ -114,6 +126,11 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - tasks-db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`tasks.popuges.easing.ru`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
   tasks-consumer:
     <<: *tasks
