@@ -29,15 +29,6 @@ services:
       - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-  whoami:
-    image: "traefik/whoami"
-    container_name: "simple-service"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`${APP_HOST}`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
-
   # Accounting
   accounting-web: &accounting
     image: popuges/accounting
@@ -52,6 +43,9 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - accounting-db
+    volumes:
+      - ./schemas:/app/schemas
+      - ./ssl:/app/ssl
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.accounting.rule=Host(`accounting.${APP_HOST}`)"
@@ -85,6 +79,9 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - analytics-db
+    volumes:
+      - ./schemas:/app/schemas
+      - ./ssl:/app/ssl
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.analytics.rule=Host(`analytics.${APP_HOST}`)"
@@ -118,6 +115,9 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - auth-db
+    volumes:
+      - ./schemas:/app/schemas
+      - ./ssl:/app/ssl
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.${APP_HOST}`)"
@@ -145,6 +145,9 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - notifications-db
+    volumes:
+      - ./schemas:/app/schemas
+      - ./ssl:/app/ssl
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.notifications.rule=Host(`notifications.${APP_HOST}`)"
@@ -177,6 +180,9 @@ services:
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
       - tasks-db
+    volumes:
+      - ./schemas:/app/schemas
+      - ./ssl:/app/ssl
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.tasks.rule=Host(`tasks.${APP_HOST}`)"
@@ -195,34 +201,6 @@ services:
     <<: *postgres
     volumes:
       - tasks-db:/var/lib/postgresql/data
-
-  # Kafka
-  kafka-broker-1:
-    container_name: kafka
-    image: confluentinc/confluent-local:7.6.0
-    ports:
-      - 9092:9092
-    environment:
-      CLUSTER_ID: kafka-docker-cluster-1
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_BROKER_ID: 1
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      ALLOW_PLAINTEXT_LISTENER: 'yes'
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
-      KAFKA_AUTHORIZER_CLASS_NAME: org.apache.kafka.metadata.authorizer.StandardAuthorizer
-      KAFKA_ADVERTISED_HOST_NAME: kafka
-
-    volumes:
-      - kafka:/var/lib/kafka/data
 
 volumes:
   kafka:

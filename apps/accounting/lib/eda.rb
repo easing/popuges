@@ -45,7 +45,10 @@ module EDA
 
   # @param [Hash] payload
   def self.consume(payload)
-    event = EDA::Event.from_payload(payload)
+    pp payload
+
+    event = EDA::Event.from_payload(payload) rescue nil
+    return if event.nil?
 
     debug_info = "#{Rails.application.class.name}: #{event.name}, #{event.payload.inspect}"
     Rails.logger.debug debug_info

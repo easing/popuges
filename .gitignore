@@ -57,3 +57,4 @@ build-iPhoneSimulator/
 
 .idea
 /rails_server_killer.rb
+/ssl/*
