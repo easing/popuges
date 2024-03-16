@@ -6,6 +6,38 @@ x-postgres: &postgres
 
 services:
 
+  traefik:
+    image: "traefik:v2.11"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=postmaster@easing.ru"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "simple-service"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`${APP_HOST}`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=letsencrypt"
+
   # Accounting
   accounting-web: &accounting
     image: popuges/accounting
@@ -21,9 +53,12 @@ services:
       - accounting-db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`tasks.popuges.easing.ru`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.accounting.rule=Host(`accounting.${APP_HOST}`)"
+      - "traefik.http.routers.accounting.entrypoints=websecure"
+      - "traefik.http.routers.accounting.service=accounting"
+      - "traefik.http.routers.accounting.tls.certresolver=letsencrypt"
+      - "traefik.http.services.accounting.loadbalancer.server.port=3000"
+
   accounting-consumer:
     <<: *accounting
     command: bundle exec karafka server
@@ -48,9 +83,11 @@ services:
       - analytics-db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`analytics.popuges.easing.ru`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.analytics.rule=Host(`analytics.${APP_HOST}`)"
+      - "traefik.http.routers.analytics.entrypoints=websecure"
+      - "traefik.http.routers.analytics.service=analytics"
+      - "traefik.http.routers.analytics.tls.certresolver=letsencrypt"
+      - "traefik.http.services.analytics.loadbalancer.server.port=3000"
 
   analytics-consumer:
     <<: *analytics
@@ -76,10 +113,12 @@ services:
       - auth-db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`auth.popuges.easing.ru`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
-      -
+      - "traefik.http.routers.auth.rule=Host(`auth.${APP_HOST}`)"
+      - "traefik.http.routers.auth.entrypoints=websecure"
+      - "traefik.http.routers.auth.service=auth"
+      - "traefik.http.routers.auth.tls.certresolver=letsencrypt"
+      - "traefik.http.services.auth.loadbalancer.server.port=3000"
+
   auth-db:
     <<: *postgres
     volumes:
@@ -97,12 +136,14 @@ services:
       - DOORKEEPER_APP_ID=erSn4By1vuRDygDvFl79zahbUsfBxhuEWUZipFRSq4M
       - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     depends_on:
-      - auth-db
+      - notifications-db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`notifications.popuges.easing.ru`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.notifications.rule=Host(`notifications.${APP_HOST}`)"
+      - "traefik.http.routers.notifications.entrypoints=websecure"
+      - "traefik.http.routers.notifications.service=notifications"
+      - "traefik.http.routers.notifications.tls.certresolver=letsencrypt"
+      - "traefik.http.services.notifications.loadbalancer.server.port=3000"
 
   notifications-consumer:
     <<: *notifications
@@ -128,9 +169,11 @@ services:
       - tasks-db
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`tasks.popuges.easing.ru`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+      - "traefik.http.routers.tasks.rule=Host(`tasks.${APP_HOST}`)"
+      - "traefik.http.routers.tasks.entrypoints=websecure"
+      - "traefik.http.routers.tasks.service=tasks"
+      - "traefik.http.routers.tasks.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tasks.loadbalancer.server.port=3000"
 
   tasks-consumer:
     <<: *tasks
@@ -139,7 +182,7 @@ services:
   tasks-db:
     <<: *postgres
     volumes:
-      - notifications-db:/var/lib/postgresql/data
+      - tasks-db:/var/lib/postgresql/data
 
   # Kafka
 #  kafka-broker-1:

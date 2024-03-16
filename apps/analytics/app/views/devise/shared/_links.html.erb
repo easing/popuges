@@ -20,7 +20,11 @@
 
 <% if devise_mapping.omniauthable? %>
   <% resource_class.omniauth_providers.each do |provider| %>
-    <%= button_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false } %>
+    <% if provider == :doorkeeper %>
+      <%= button_to "Войти сквозь Попугаицу", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "font-size: 2em; padding: .25em .5em;" %>
+    <% else %>
+      <%= button_to "Войти  #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider), data: { turbo: false }, style: "font-size: 2em; padding: .25em .5em;" %>
+    <% end %>
     <br/>
   <% end %>
 <% end %>
