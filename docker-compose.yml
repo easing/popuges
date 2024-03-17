@@ -40,8 +40,7 @@ services:
   accounting-consumer:
     <<: *accounting
     command: bundle exec karafka server
-    ports:
-      - "3000:3000"
+    ports: []
     labels:
       - "traefik.enable=false"
 
@@ -68,8 +67,7 @@ services:
 
   analytics-consumer:
     <<: *analytics
-    ports:
-      - "3000:3000"
+    ports: []
     command: bundle exec karafka server
     labels:
       - "traefik.enable=false"
@@ -117,8 +115,7 @@ services:
   notifications-consumer:
     <<: *notifications
     command: bundle exec karafka server
-    ports:
-      - "3000:3000"
+    ports: []
     labels:
       - "traefik.enable=false"
 
@@ -145,8 +142,7 @@ services:
   tasks-consumer:
     <<: *tasks
     command: bundle exec karafka server
-    ports:
-      - "3000:3000"
+    ports: []
     labels:
       - "traefik.enable=false"
 
