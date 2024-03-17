@@ -22,6 +22,8 @@ services:
     <<: *rails
     image: popuges/accounting
     build: ./apps/accounting
+    ports:
+      - "5001:3000"
     environment:
       <<: *rails-env
       DOORKEEPER_APP_ID: m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
@@ -47,6 +49,8 @@ services:
     image: popuges/analytics
     build: ./apps/analytics
     command: rails server -b 0.0.0.0
+    ports:
+      - "5002:3000"
     environment:
       <<: *rails-env
       DOORKEEPER_APP_ID: qQ41BGrm4XICI8qK0I7Pc0tJotNPjGWQMxKucOsvqhs
@@ -71,6 +75,8 @@ services:
     <<: *rails
     image: popuges/auth
     build: ./apps/auth
+    ports:
+      - "5003:3000"
     environment:
       <<: *rails-env
       DOORKEEPER_APP_ID: m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
@@ -89,6 +95,8 @@ services:
     <<: *rails
     image: popuges/notifications
     build: ./apps/notifications
+    ports:
+      - "5004:3000"
     environment:
       <<: *rails-env
       DOORKEEPER_APP_ID: erSn4By1vuRDygDvFl79zahbUsfBxhuEWUZipFRSq4M
@@ -113,6 +121,8 @@ services:
     <<: *rails
     image: popuges/tasks
     build: ./apps/tasks
+    ports:
+      - "5005:3000"
     environment:
       <<: *rails-env
       DOORKEEPER_APP_ID: iy-sQH3SyV3LlDXpnvZrwazSKYDgrUNOG_1SIcCLN68
