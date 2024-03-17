@@ -21,6 +21,7 @@ class Task::MassCreate < ApplicationInteraction
 
       tasks << task_data
 
+      # а здесь мы для простоты делаем вид, что все задачи вставятся, и у события действительно случился успешный реассайн
       events << Task::Created.new(event_data)
       events << Task::Added.new(event_data)
     end

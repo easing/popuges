@@ -14,6 +14,7 @@ class ReassignTasks < ApplicationInteraction
       popug_id, popug_public_id = *popugs_by_id.sample
 
       assigned_tasks << { id: id, public_id: public_id, subject: subject, assignee_id: popug_id }
+      # ну здесь мы делаем вид, что всё ок и у события действительно случился успешный реассайн
       events << Task::Assigned.new({ public_id: public_id, subject: subject, assignee_id: popug_public_id })
     end
 
