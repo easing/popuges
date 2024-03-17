@@ -4,15 +4,21 @@ class ReassignTasks < ApplicationInteraction
     return errors.add(:base, "У нас не осталось попугов") if User.role_popug.none?
 
     assigned_tasks = []
+    events = []
 
-    Task.not_completed.find_each do |task|
-      task.update!(assignee: random_popug)
+    popugs_by_id = User.role_popug.pluck(:id, :public_id)
 
-      assigned_tasks << task if task.saved_change_to_assignee_id?
+    tasks = Task.not_completed.pluck(:id, :public_id, :subject)
+
+    tasks.each do |id, public_id, subject|
+      popug_id, popug_public_id = *popugs_by_id.sample
+
+      assigned_tasks << { id: id, public_id: public_id, subject: subject, assignee_id: popug_id }
+      events << Task::Assigned.new({ public_id: public_id, subject: subject, assignee_id: popug_public_id })
     end
 
-    events = assigned_tasks.map { |task| Task::Assigned.new(task.as_event_data) }
-    Rails.logger.debug events
+    Task.upsert_all(assigned_tasks, unique_by: [:id])
+
     EDA.stream_batch events
   end
 

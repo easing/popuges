@@ -39,7 +39,7 @@ class Ability < ApplicationAbility
 
   def can_manage_tasks
     can_read_tasks
-    can [:create, :complete, :reassign], Task
+    can [:create, :complete, :reassign, :mass_complete, :mass_create], Task
   end
 
   def can_complete_own_tasks

@@ -3,6 +3,7 @@ class TasksController < ApplicationController
 
   def index
     @grid = TasksGrid.new { @tasks.includes(:assignee) }
+    @not_completed_tasks = @tasks.not_completed
   end
 
   def show
@@ -24,6 +25,15 @@ class TasksController < ApplicationController
 
   def reassign
     ReassignTasks.run!
+    redirect_back fallback_location: tasks_path
+  end
+
+  def mass_complete
+    Task::MassComplete.run!
+    redirect_back fallback_location: tasks_path
+  end
+  def mass_create
+    Task::MassCreate.run!
     redirect_back fallback_location: tasks_path
   end
 end

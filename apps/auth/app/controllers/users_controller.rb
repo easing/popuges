@@ -18,6 +18,16 @@ class UsersController < ApplicationController
     redirect_back fallback_location: user_path(user)
   end
 
+  def employ_popugs
+    User::EmployNewPopugs.run!
+    redirect_back fallback_location: users_path
+  end
+
+  def fire_popugs
+    User::FireRandomPopugs.run!
+    redirect_back fallback_location: users_path
+  end
+
   def index
     @grid = UsersGrid.new { @users.order(created_at: :desc) }
   end

@@ -3,7 +3,7 @@ class BillingCycle::Close < ApplicationInteraction
 
   def execute
     return unless billing_cycle.current?
-    return if billing_cycle.balance.negative?
+    return unless billing_cycle.balance.positive?
 
     BillingCycle.transaction do
       billing_cycle.update!(current: false)

@@ -18,7 +18,7 @@ class TasksGrid < ApplicationGrid
       task.completed_at
     else
       form_tag complete_task_path(task), method: :patch do |f|
-        submit_tag "Завершить"
+        submit_tag "Завершить", class: "btn btn-sm btn-warning"
       end
     end
   end

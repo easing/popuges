@@ -15,7 +15,8 @@ class KarafkaApp < Karafka::App
         'ssl.ca.pem': File.read(Rails.root.join "ssl/ca-certificate.crt")
       )
     end
-    config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
+
+    # config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::LoggerListener.new)

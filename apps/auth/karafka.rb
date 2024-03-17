@@ -4,7 +4,8 @@
 class KarafkaApp < Karafka::App
   setup do |config|
     config.kafka = {
-      'bootstrap.servers': ENV.fetch('KAFKA_HOST', '127.0.0.1:9092')
+      'bootstrap.servers': ENV.fetch('KAFKA_HOST', '127.0.0.1:9092'),
+      'request.required.acks': 1
     }
 
     if ENV["KAFKA_SSL"] == "true"
@@ -15,7 +16,8 @@ class KarafkaApp < Karafka::App
         'ssl.ca.pem': File.read(Rails.root.join "ssl/ca-certificate.crt")
       )
     end
-    config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
+
+    # config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::LoggerListener.new)

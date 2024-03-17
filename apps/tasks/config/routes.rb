@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
     collection do
       patch :reassign
+      patch :mass_complete
+      patch :mass_create
     end
   end
 

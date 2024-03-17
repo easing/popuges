@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show] do
     collection do
       post "new", to: "users#create_popug", as: :create_popug
+      post "employ", to: "users#employ_popugs", as: :employ_popugs
+      post "fire", to: "users#fire_popugs", as: :fire_popugs
     end
   end
 

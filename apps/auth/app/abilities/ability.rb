@@ -25,6 +25,6 @@ class Ability < ApplicationAbility
   end
 
   def can_manage_users
-    can [:read, :edit, :update, :create], User
+    can [:read, :edit, :update, :create, :employ_popugs, :fire_popugs], User
   end
 end
