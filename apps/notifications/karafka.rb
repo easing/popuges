@@ -7,7 +7,7 @@ class KarafkaApp < Karafka::App
       'bootstrap.servers': ENV.fetch('KAFKA_HOST', '127.0.0.1:9092')
     }
 
-    if ENV["KAFKA_SSL"] == true
+    if ENV["KAFKA_SSL"] == "true"
       config.kafka.merge!(
         'security.protocol': 'SSL',
         'ssl.key.pem': File.read(Rails.root.join "ssl/user-access-key.key"),

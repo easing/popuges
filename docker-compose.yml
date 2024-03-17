@@ -1,13 +1,16 @@
 x-rails: &rails
   command: rails server -b 0.0.0.0
   environment: &rails-env
-    DATABASE_URL: postgres://postgres@db:5432
+    DATABASE_URL: postgres://postgres@postgres:5432
     KAFKA_HOST: ${KAFKA_HOST:-kafka:9092}
+    KAFKA_SSL:
     SECRET_KEY_BASE:
     DOORKEEPER_APP_URL:
     WEB_CONCURRENCY: 0
+  networks:
+    - traefik
   depends_on:
-    - db
+    - postgres
   volumes:
     - ./lib:/app/lib
     - ./schemas:/app/schemas
@@ -20,6 +23,7 @@ services:
     image: popuges/accounting
     build: ./apps/accounting
     environment:
+      <<: *rails-env
       DOORKEEPER_APP_ID: m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
       DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
@@ -128,13 +132,20 @@ services:
     labels:
       - "traefik.enable=false"
 
-  db:
+  postgres:
     image: postgres:15
     restart: always
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres:/var/lib/postgresql/data
+
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
 
 volumes:
   kafka:
