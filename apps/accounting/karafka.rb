@@ -7,17 +7,6 @@ class KarafkaApp < Karafka::App
       'bootstrap.servers': ENV.fetch('KAFKA_HOST', '127.0.0.1:9092'),
       'request.required.acks': 1
     }
-
-    if ENV["KAFKA_SSL"] == "true"
-      config.kafka.merge!(
-        'security.protocol': 'SSL',
-        'ssl.key.pem': File.read(Rails.root.join "ssl/user-access-key.key"),
-        'ssl.certificate.pem': File.read(Rails.root.join "ssl/user-access-certificate.crt"),
-        'ssl.ca.pem': File.read(Rails.root.join "ssl/ca-certificate.crt")
-      )
-    end
-
-    # config.client_id = Rails.application.class.name.deconstantize.downcase
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::LoggerListener.new)
@@ -31,8 +20,6 @@ class KarafkaApp < Karafka::App
 
       topic(:tasks_data_stream) { consumer ApplicationConsumer }
       topic(:tasks_workflow) { consumer ApplicationConsumer }
-
-      topic(:system_clock) { consumer ApplicationConsumer }
     end
   end
 end

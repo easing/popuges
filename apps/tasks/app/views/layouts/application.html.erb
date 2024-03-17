@@ -120,7 +120,7 @@
           <%= link_to current_user.name, "https://auth.popuges.easing.ru/users/#{current_user.id}" %>
         </strong>
         &nbsp;
-        <%= form_for current_user, method: :delete, url: destroy_user_session_url do %>
+        <%= form_for current_user, method: :delete, url: destroy_user_session_url(port: 5003) do %>
           <input type="submit" value="Выйти"/>
         <% end %>
       <% end %>
