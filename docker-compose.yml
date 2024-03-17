@@ -1,57 +1,33 @@
-x-postgres: &postgres
-  image: postgres:15
-  restart: always
-  environment:
-    - POSTGRES_HOST_AUTH_METHOD=trust
+x-rails: &rails
+  command: rails server -b 0.0.0.0
+  environment: &rails-env
+    DATABASE_URL: postgres://postgres@db:5432
+    KAFKA_HOST: ${KAFKA_HOST:-kafka:9092}
+    SECRET_KEY_BASE:
+    DOORKEEPER_APP_URL:
+    WEB_CONCURRENCY: 0
+  depends_on:
+    - db
+  volumes:
+    - ./lib:/app/lib
+    - ./schemas:/app/schemas
+    - ./ssl:/app/ssl
 
 services:
-
-  traefik:
-    image: "traefik:v2.11"
-    container_name: "traefik"
-    command:
-      #- "--log.level=DEBUG"
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
-      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.letsencrypt.acme.email=postmaster@easing.ru"
-      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - "./letsencrypt:/letsencrypt"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-
   # Accounting
   accounting-web: &accounting
+    <<: *rails
     image: popuges/accounting
     build: ./apps/accounting
-    command: rails server -b 0.0.0.0
     environment:
-      - DATABASE_URL=postgres://postgres@accounting-db:5432
-      - SECRET_KEY_BASE
-      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
-      - DOORKEEPER_APP_URL
-      - DOORKEEPER_APP_ID=m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
-      - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
-      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
-    depends_on:
-      - accounting-db
-    volumes:
-      - ./schemas:/app/schemas
-      - ./ssl:/app/ssl
+      DOORKEEPER_APP_ID: m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
+      DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.accounting.rule=Host(`accounting.${APP_HOST}`)"
       - "traefik.http.routers.accounting.entrypoints=websecure"
       - "traefik.http.routers.accounting.service=accounting"
+      - "traefik.http.routers.accounting.tls=true"
       - "traefik.http.routers.accounting.tls.certresolver=letsencrypt"
       - "traefik.http.services.accounting.loadbalancer.server.port=3000"
 
@@ -61,34 +37,22 @@ services:
     labels:
       - "traefik.enable=false"
 
-  accounting-db:
-    <<: *postgres
-    volumes:
-      - accounting-db:/var/lib/postgresql/data
-
   # Analytics
   analytics-web: &analytics
+    <<: *rails
     image: popuges/analytics
     build: ./apps/analytics
     command: rails server -b 0.0.0.0
     environment:
-      - DATABASE_URL=postgres://postgres@analytics-db:5432
-      - SECRET_KEY_BASE
-      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
-      - DOORKEEPER_APP_URL
-      - DOORKEEPER_APP_ID=qQ41BGrm4XICI8qK0I7Pc0tJotNPjGWQMxKucOsvqhs
-      - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
-      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
-    depends_on:
-      - analytics-db
-    volumes:
-      - ./schemas:/app/schemas
-      - ./ssl:/app/ssl
+      <<: *rails-env
+      DOORKEEPER_APP_ID: qQ41BGrm4XICI8qK0I7Pc0tJotNPjGWQMxKucOsvqhs
+      DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.analytics.rule=Host(`analytics.${APP_HOST}`)"
       - "traefik.http.routers.analytics.entrypoints=websecure"
       - "traefik.http.routers.analytics.service=analytics"
+      - "traefik.http.routers.analytics.tls=true"
       - "traefik.http.routers.analytics.tls.certresolver=letsencrypt"
       - "traefik.http.services.analytics.loadbalancer.server.port=3000"
 
@@ -98,65 +62,39 @@ services:
     labels:
       - "traefik.enable=false"
 
-  analytics-db:
-    <<: *postgres
-    volumes:
-      - analytics-db:/var/lib/postgresql/data
-
   # Auth
   auth-web: &auth
+    <<: *rails
     image: popuges/auth
     build: ./apps/auth
-    command: rails server -b 0.0.0.0
     environment:
-      - DATABASE_URL=postgres://postgres@auth-db:5432
-      - SECRET_KEY_BASE
-      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
-      - DOORKEEPER_APP_URL
-      - DOORKEEPER_APP_ID=m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
-      - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
-      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
-    depends_on:
-      - auth-db
-    volumes:
-      - ./schemas:/app/schemas
-      - ./ssl:/app/ssl
+      <<: *rails-env
+      DOORKEEPER_APP_ID: m60uKqBNFBqIL435DAgXInTMw02Kdsllb_hgx4eGj5M
+      DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.${APP_HOST}`)"
       - "traefik.http.routers.auth.entrypoints=websecure"
       - "traefik.http.routers.auth.service=auth"
+      - "traefik.http.routers.auth.tls=true"
       - "traefik.http.routers.auth.tls.certresolver=letsencrypt"
       - "traefik.http.services.auth.loadbalancer.server.port=3000"
 
-  auth-db:
-    <<: *postgres
-    volumes:
-      - auth-db:/var/lib/postgresql/data
-
   # Notifications
   notifications-web: &notifications
+    <<: *rails
     image: popuges/notifications
     build: ./apps/notifications
-    command: rails server -b 0.0.0.0
     environment:
-      - DATABASE_URL=postgres://postgres@notifications-db:5432
-      - SECRET_KEY_BASE
-      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
-      - DOORKEEPER_APP_URL
-      - DOORKEEPER_APP_ID=erSn4By1vuRDygDvFl79zahbUsfBxhuEWUZipFRSq4M
-      - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
-      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
-    depends_on:
-      - notifications-db
-    volumes:
-      - ./schemas:/app/schemas
-      - ./ssl:/app/ssl
+      <<: *rails-env
+      DOORKEEPER_APP_ID: erSn4By1vuRDygDvFl79zahbUsfBxhuEWUZipFRSq4M
+      DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.notifications.rule=Host(`notifications.${APP_HOST}`)"
       - "traefik.http.routers.notifications.entrypoints=websecure"
       - "traefik.http.routers.notifications.service=notifications"
+      - "traefik.http.routers.notifications.tls=true"
       - "traefik.http.routers.notifications.tls.certresolver=letsencrypt"
       - "traefik.http.services.notifications.loadbalancer.server.port=3000"
 
@@ -166,34 +104,21 @@ services:
     labels:
       - "traefik.enable=false"
 
-  notifications-db:
-    <<: *postgres
-    volumes:
-      - notifications-db:/var/lib/postgresql/data
-
   # Tasks
   tasks-web: &tasks
+    <<: *rails
     image: popuges/tasks
     build: ./apps/tasks
-    command: rails server -b 0.0.0.0
     environment:
-      - DATABASE_URL=postgres://postgres@tasks-db:5432
-      - SECRET_KEY_BASE
-      - KAFKA_HOST=${KAFKA_HOST:-kafka:9092}
-      - DOORKEEPER_APP_URL
-      - DOORKEEPER_APP_ID=iy-sQH3SyV3LlDXpnvZrwazSKYDgrUNOG_1SIcCLN68
-      - DOORKEEPER_SECRET_ID=BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
-      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-1}
-    depends_on:
-      - tasks-db
-    volumes:
-      - ./schemas:/app/schemas
-      - ./ssl:/app/ssl
+      <<: *rails-env
+      DOORKEEPER_APP_ID: iy-sQH3SyV3LlDXpnvZrwazSKYDgrUNOG_1SIcCLN68
+      DOORKEEPER_SECRET_ID: BSUgDZG6EhjREPFqZBP7mfJFtbzrMqD3_71RfyI43hU
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.tasks.rule=Host(`tasks.${APP_HOST}`)"
       - "traefik.http.routers.tasks.entrypoints=websecure"
       - "traefik.http.routers.tasks.service=tasks"
+      - "traefik.http.routers.tasks.tls=true"
       - "traefik.http.routers.tasks.tls.certresolver=letsencrypt"
       - "traefik.http.services.tasks.loadbalancer.server.port=3000"
 
@@ -203,15 +128,14 @@ services:
     labels:
       - "traefik.enable=false"
 
-  tasks-db:
-    <<: *postgres
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - tasks-db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
 volumes:
   kafka:
-  accounting-db:
-  analytics-db:
-  auth-db:
-  tasks-db:
-  notifications-db:
+  postgres:

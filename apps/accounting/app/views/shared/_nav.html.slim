@@ -1,0 +1,10 @@
+.mb-3
+  - if can?(:close, BillingCycle)
+    .d-inline-block
+      = form_tag close_billing_cycles_path, method: :post do
+        = submit_tag "Выплатить зарплату", class: "btn btn-warning"
+
+    .d-inline-block &nbsp;&nbsp;&nbsp;
+
+  .d-inline-block
+    a.btn.btn-link class=("disabled active" if current_page?(billing_cycles_path)) href=billing_cycles_path История выплат

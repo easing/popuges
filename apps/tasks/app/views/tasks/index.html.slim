@@ -1,17 +1,15 @@
-- if can?(:create, Task)
-  = form_tag tasks_path, method: :post, style: "display: inline;" do |f|
-    = submit_tag "Добавить задачу"
-
-  | &nbsp;
-  | &nbsp;
-  | &nbsp;
-
-- if can?(:reassign, Task)
-  = form_tag reassign_tasks_path, method: :patch, style: "display: inline;" do |f|
-    = submit_tag "Перемешать задачи"
-
 - if can?(:reassign, Task) || can?(:create, Task)
-  br
-  br
+  .mb-3
+    - if can?(:create, Task)
+      .d-inline-block
+        = form_tag tasks_path, method: :post do |f|
+          = submit_tag "Добавить задачу", class: "btn btn-outline-success"
+
+      .d-inline-block &nbsp;&nbsp;&nbsp;
+
+    - if can?(:reassign, Task)
+      .d-inline-block
+        = form_tag reassign_tasks_path, method: :patch, style: "display: inline;" do |f|
+          = submit_tag "Перемешать задачи", class: "btn btn-outline-warning"
 
 = render_grid @grid

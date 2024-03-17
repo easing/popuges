@@ -1,0 +1,6 @@
+ru:
+  hello: "Привет, мир!"
+
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M:%S"

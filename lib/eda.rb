@@ -9,7 +9,9 @@ module EDA
   attr_reader :errors
 
   self.producer = Karafka.producer
-  self.registry = EDA::SchemaRegistry.new(Rails.root.join("schemas"))
+  self.registry = EDA::SchemaRegistry.new(
+    Rails.env.production? ? Rails.root.join("schemas") : Rails.root.join("../../schemas")
+  )
 
   self.service_name = Rails.application.class.name&.deconstantize&.downcase
 

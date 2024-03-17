@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "../../lib/doorkeeper_strategy"
+if Rails.env.production?
+  require_relative "../../lib/doorkeeper_strategy"
+else
+  require_relative "../../../../lib/doorkeeper_strategy"
+end
 
 Devise.setup do |config|
   require 'devise/orm/active_record'

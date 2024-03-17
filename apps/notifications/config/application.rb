@@ -27,6 +27,8 @@ module Notifications
 
     Rails.application.config.secret_key_base = ENV["SECRET_KEY_BASE"]
 
+    config.autoload_paths << "../../lib" unless Rails.env.production?
+
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end

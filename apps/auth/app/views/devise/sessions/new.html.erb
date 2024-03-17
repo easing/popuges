@@ -1,109 +1,90 @@
-<!doctype html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>aTES</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      height: 100vh;
-      background-color: #fafafa;
-      /*background-color: #86ac6fff;*/
-      /*background-color: #112219;*/
-      background-image: url(https://optim.tildacdn.com/tild3861-6165-4263-b264-616465303438/-/resize/766x/-/format/webp/___.png);
-      /*background-image: url(https://optim.tildacdn.com/tild6231-6433-4438-a634-613434306637/-/format/webp/_.png);*/
-      background-position: 100% 70%;
-      background-repeat: no-repeat;
-      background-size: 20%;
-    }
+<h2>Калитка в&nbsp;Попугаицу</h2>
 
-    h1 {
-      font-weight: bold;
-    }
-
-    h2 {
-      font-size: 3em;
-      font-weight: bold;
-      margin-bottom: .5em;
-      color: #112219;
-    }
-
-    table {
-      width: 100%;
-    }
-
-    table th,
-    table td {
-      text-align: left;
-      border-collapse: collapse;
-      border-bottom: 1px solid #eee;
-      padding: .5em 1em;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, .9);
-      padding: 1em 2%;
-      border: none;
-    }
-
-    label {
-      display: block;
-      line-height: 1.5;
-      color: #999;
-      padding-bottom: .25em;
-    }
-
-    .field {
-      margin-bottom: 1.5em;
-    }
-
-    input {
-      font-size: 1.5em;
-      padding: .25em .5em;
-      width: 100%;
-    }
-
-    input[type="button"],
-    input[type="submit"] {
-      width: auto;
-    }
-
-    .container {
-      max-width: 640px;
-      margin-left: 20%;
-    }
-  </style>
-</head>
-<body>
-
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-      <h2>Калитка в&nbsp;Попугаицу</h2>
-
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="field">
-          <%= f.label "Ваша почта" %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", value: "administrator@easing.ru" %>
-        </div>
-
-        <div class="field">
-          <%= f.label "Приложите клюв" %>
-          <%= f.password_field :password, autocomplete: "current-password", value: "administrator" %>
-        </div>
-
-        <div class="actions">
-          <%= f.submit "Войти" %>
-        </div>
-      <% end %>
-    </div>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="field">
+    <%= f.label "Ваша почта" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: "administrator@easing.ru" %>
   </div>
-</div>
 
-</body>
-</html>
+  <div class="field">
+    <%= f.label "Приложите клюв" %>
+    <%= f.password_field :password, autocomplete: "current-password", value: "administrator" %>
+  </div>
 
+  <div class="actions">
+    <%= f.submit "Войти" %>
+  </div>
+<% end %>
+
+
+<style>
+  body {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    background-color: #fafafa;
+    /*background-color: #86ac6fff;*/
+    /*background-color: #112219;*/
+    background-image: url(https://optim.tildacdn.com/tild3861-6165-4263-b264-616465303438/-/resize/766x/-/format/webp/___.png);
+    /*background-image: url(https://optim.tildacdn.com/tild6231-6433-4438-a634-613434306637/-/format/webp/_.png);*/
+    background-position: 100% 70%;
+    background-repeat: no-repeat;
+    background-size: 20%;
+  }
+
+  h1 {
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: .5em;
+    color: #112219;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  table th,
+  table td {
+    text-align: left;
+    border-collapse: collapse;
+    border-bottom: 1px solid #eee;
+    padding: .5em 1em;
+  }
+
+  .card {
+    background: rgba(255, 255, 255, .9);
+    padding: 1em 2%;
+    border: none;
+  }
+
+  label {
+    display: block;
+    line-height: 1.5;
+    color: #999;
+    padding-bottom: .25em;
+  }
+
+  .field {
+    margin-bottom: 1.5em;
+  }
+
+  input {
+    font-size: 1.5em;
+    padding: .25em .5em;
+    width: 100%;
+  }
+
+  input[type="button"],
+  input[type="submit"] {
+    width: auto;
+  }
+
+  .container {
+    max-width: 640px;
+    margin-left: 20%;
+  }
+</style>
