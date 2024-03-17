@@ -6,7 +6,7 @@
       = form_tag close_billing_cycles_path, method: :post do
         = submit_tag "Выдать зарплату", class: "btn btn-warning"
 
-- count = BillingCycle.count
+- count = BillingCycle.where(current: false).count
 - if count > 0
   p Уже устали выдавать зарплату (выдали #{count})
 
