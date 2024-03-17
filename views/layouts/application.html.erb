@@ -100,7 +100,7 @@
 <div class="topnav">
   <div class="topnav__container container">
     <div class="topnav__logotype">
-      <h1 class="logotype">aTES</h1>
+      <% unless devise_controller? %><h1 class="logotype">aTES</h1><% end %>
     </div>
     <div class="topnav__navigation">
       <% if user_signed_in? %>
