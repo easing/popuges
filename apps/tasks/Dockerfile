@@ -1,11 +1,10 @@
-FROM ruby:3.2.2-alpine
+FROM ruby:3.2.2-slim
 
 # Minimal requirements to run a Rails app
-RUN apk add --no-cache --update build-base \
-    linux-headers \
-    gcompat \
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends build-essential \
     git \
-    postgresql-dev \
+    libpq-dev \
     tzdata \
     curl \
     bash \
@@ -16,6 +15,7 @@ RUN apk add --no-cache --update build-base \
 
 ENV RAILS_ENV='production'
 ENV RACK_ENV='production'
+
 
 # Configure bundler
 ENV LANG=C.UTF-8 \
