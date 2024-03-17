@@ -16,6 +16,8 @@ class BillingCycle < ApplicationRecord
   scope :current, -> { where(current: true) }
   scope :ordered, -> { order(created_at: :desc) }
 
+  default_scope { ordered }
+
   def balance = transactions.sum(Arel.sql("debit - credit"))
 
   def as_event_data

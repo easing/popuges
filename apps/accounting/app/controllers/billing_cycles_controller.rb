@@ -3,7 +3,7 @@ class BillingCyclesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @grid = BillingCyclesGrid.new { @billing_cycles.current }
+    @grid = BillingCyclesGrid.new { @billing_cycles }
   end
 
   def show
