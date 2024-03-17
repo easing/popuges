@@ -10,12 +10,12 @@ h1 У нас #{User.role_popug.count} 🦜
       .d-inline-block &nbsp;&nbsp;
       .d-inline-block
         = form_tag employ_popugs_users_path, method: :post do |f|
-          = submit_tag "Нанять попугов", class: "btn btn-outline-primary"
+          = submit_tag "Вызвать стаю", class: "btn btn-outline-primary"
 
     - if can?(:fire_popugs, User)
       .d-inline-block &nbsp;&nbsp;
       .d-inline-block
         = form_tag fire_popugs_users_path, method: :post do |f|
-          = submit_tag "Сократить попугов", class: "btn btn-warning"
+          = submit_tag "Сократить поголовье", class: "btn btn-warning"
 
 = render_grid @grid

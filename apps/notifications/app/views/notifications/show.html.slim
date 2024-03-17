@@ -4,5 +4,5 @@ h1= @notification.class.model_name.human
   = n.attribute :id
   = n.attribute :subject
   = n.attribute :user do
-    = @notification.user.display_name
+    = @notification.user&.display_name
   = n.attribute :created_at

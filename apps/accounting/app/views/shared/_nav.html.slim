@@ -1,10 +1,8 @@
-.mb-3
-  - if can?(:close, BillingCycle)
-    .d-inline-block
-      = form_tag close_billing_cycles_path, method: :post do
-        = submit_tag "Выплатить зарплату", class: "btn btn-warning"
+ul.nav.nav-tabs.mb-3
+  li class="nav-item"
+    a href="#{transactions_path}" class="nav-link #{"active" if current_page?(transactions_path)}"
+      = Transaction.model_name.human
 
-    .d-inline-block &nbsp;&nbsp;&nbsp;
-
-  .d-inline-block
-    a.btn.btn-link class=("disabled active" if current_page?(billing_cycles_path)) href=billing_cycles_path История выплат
+  li class="nav-item"
+    a href="#{billing_cycles_path}" class="nav-link #{"active" if current_page?(billing_cycles_path)}"
+      = BillingCycle.model_name.human

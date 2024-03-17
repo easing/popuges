@@ -18,6 +18,6 @@ class User < ::ApplicationRecord
   has_many :tasks, inverse_of: :assignee, dependent: :destroy
 
   def balance
-    transactions.sum(Arel.sql "debit - credit")
+    current_billing_cycle&.balance
   end
 end

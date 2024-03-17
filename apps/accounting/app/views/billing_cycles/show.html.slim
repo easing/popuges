@@ -1,0 +1,9 @@
+= render "shared/nav"
+
+h1= @billing_cycle.display_name
+
+= show_for @billing_cycle do |bc|
+  = bc.attribute :name
+  = bc.attribute :balance
+  = bc.association :transactions do |t|
+    p= [t.debit, t.credit, t.description]

@@ -10,6 +10,7 @@ class Task::MassCreate < ApplicationInteraction
 
       task_data = {
         assignee_id: user_id,
+        jira_id: SecureRandom.hex(2),
         subject: SecureRandom.hex,
         public_id: SecureRandom.uuid,
         created_at: Time.current,
@@ -20,6 +21,7 @@ class Task::MassCreate < ApplicationInteraction
 
       tasks << task_data
 
+      events << Task::Created.new(event_data)
       events << Task::Added.new(event_data)
     end
 

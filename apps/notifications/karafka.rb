@@ -17,7 +17,7 @@ class KarafkaApp < Karafka::App
       )
     end
 
-    # config.client_id = Rails.application.class.name.deconstantize.downcase.to_s
+    config.client_id = Rails.application.class.name.deconstantize.downcase.to_s + SecureRandom.uuid.to_s
   end
 
   Karafka.monitor.subscribe(Karafka::Instrumentation::LoggerListener.new)

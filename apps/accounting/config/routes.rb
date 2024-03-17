@@ -5,13 +5,13 @@ Rails.application.routes.draw do
 
   resources :transactions, only: [:index, :show]
   resources :users, only: [:index, :show]
-  resources :billing_cycles, only: [:index] do
+  resources :billing_cycles, only: [:index, :show] do
     collection do
       post :close
     end
   end
 
-  root to: redirect("/transactions")
+  root to: redirect("/billing_cycles")
 
   get 'up' => 'rails/health#show', as: :rails_health_check
 end

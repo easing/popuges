@@ -1,6 +1,17 @@
 = render "shared/nav"
 
-table.table
+- if can?(:close, BillingCycle)
+  .mb-2
+    .d-inline-block
+      = form_tag close_billing_cycles_path, method: :post do
+        = submit_tag "Выдать зарплату", class: "btn btn-warning"
+
+- count = BillingCycle.count
+- if count > 0
+  p Уже устали выдавать зарплату (выдали #{count})
+
+= render_grid @grid
+/ table.table
   col width="200px"
   col width="*"
   thead
